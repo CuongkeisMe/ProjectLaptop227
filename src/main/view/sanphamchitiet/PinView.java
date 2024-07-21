@@ -1,13 +1,16 @@
 package main.view.sanphamchitiet;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import main.entity.Pin;
 import main.repository.PinRepository;
+import main.view.chucnang.SanPhamView;
 
 public class PinView extends javax.swing.JFrame {
     private DefaultTableModel dtm;
     private PinRepository pinRepo;
+    SanPhamView SPV;
     
     private void showDataTable(ArrayList<Pin> list){
         dtm.setRowCount(0);
@@ -21,6 +24,12 @@ public class PinView extends javax.swing.JFrame {
         txtDungLuongPin.setText(pin.getDungLuongPin());
     }
     
+    private Pin getFormData(){
+        return Pin.builder()
+                .DungLuongPin(txtDungLuongPin.getText())
+                .build();
+    }
+    
     public PinView() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -30,6 +39,18 @@ public class PinView extends javax.swing.JFrame {
         pinRepo = new PinRepository();
         this.showDataTable(pinRepo.getAll());
     }
+    
+    public PinView(SanPhamView sanphamview) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setTitle("Quản lý màn hình");
+        dtm = (DefaultTableModel)tblQuanLyPin.getModel();
+        pinRepo = new PinRepository();
+        this.showDataTable(pinRepo.getAll());
+        SPV = sanphamview;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -80,10 +101,20 @@ public class PinView extends javax.swing.JFrame {
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/32378_add_plus_icon.png"))); // NOI18N
         btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/1582587_arrow_refresh_reload_rotate icon_icon.png"))); // NOI18N
         btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/9041913_reset_icon.png"))); // NOI18N
@@ -162,6 +193,45 @@ public class PinView extends javax.swing.JFrame {
     private void tblQuanLyPinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyPinMouseClicked
         this.detail(tblQuanLyPin.getSelectedRow());
     }//GEN-LAST:event_tblQuanLyPinMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if (txtDungLuongPin.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Dung lượng pin không được để trống");
+            txtDungLuongPin.requestFocus();
+            return;
+        }
+        for (Pin pin : pinRepo.getAll()) {
+            if (txtDungLuongPin.getText().equalsIgnoreCase(pin.getDungLuongPin())) {
+                JOptionPane.showMessageDialog(this, "Dung lượng pin này đã tồn tại trong bảng");
+                txtDungLuongPin.requestFocus();
+                return;
+            }
+        }
+        int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn thêm dung lượng pin này chưa ?");
+        if (chon == 0) {
+            if (pinRepo.add(this.getFormData())) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                SPV.showComboboxPin();
+                this.showDataTable(pinRepo.getAll());
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        int index = tblQuanLyPin.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dung lượng pin muốn sửa !");
+        } else {
+            int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn sửa dung lượng pin này chưa ?");
+            if (chon == 0) {
+                if (pinRepo.update(this.getFormData(), pinRepo.getAll().get(index).getIdPin())) {
+                    JOptionPane.showMessageDialog(this, "Sửa thành công");
+                    SPV.showComboboxPin();
+                    this.showDataTable(pinRepo.getAll());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments

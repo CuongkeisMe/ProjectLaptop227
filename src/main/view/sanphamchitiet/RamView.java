@@ -2,13 +2,16 @@ package main.view.sanphamchitiet;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import main.entity.Ram;
 import main.repository.RamRepository;
+import main.view.chucnang.SanPhamView;
 
 public class RamView extends javax.swing.JFrame {
     private DefaultTableModel dtm;
     private RamRepository ramRepo;
+    SanPhamView SPV;
     
     private void showDataTable(ArrayList<Ram> list){
         dtm.setRowCount(0);
@@ -23,6 +26,12 @@ public class RamView extends javax.swing.JFrame {
         txtDungLuongRam.setText(ram.getDungLuongRam());
     }
     
+    private Ram getFormData(){
+        return Ram.builder()
+                .DungLuongRam(txtDungLuongRam.getText())
+                .build();
+    }
+    
     public RamView() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -33,6 +42,17 @@ public class RamView extends javax.swing.JFrame {
         this.showDataTable(ramRepo.getAll());
     }
 
+     public RamView(SanPhamView sanphamview) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setTitle("Quản lý Ram");
+        dtm = (DefaultTableModel)tblQuanLyRam.getModel();
+        ramRepo = new RamRepository();
+        this.showDataTable(ramRepo.getAll());
+        SPV = sanphamview;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -83,10 +103,20 @@ public class RamView extends javax.swing.JFrame {
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/32378_add_plus_icon.png"))); // NOI18N
         btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/1582587_arrow_refresh_reload_rotate icon_icon.png"))); // NOI18N
         btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/9041913_reset_icon.png"))); // NOI18N
@@ -166,6 +196,45 @@ public class RamView extends javax.swing.JFrame {
     private void tblQuanLyRamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyRamMouseClicked
         this.detail(tblQuanLyRam.getSelectedRow());
     }//GEN-LAST:event_tblQuanLyRamMouseClicked
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (txtDungLuongRam.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên loại ram không được để trống");
+            txtDungLuongRam.requestFocus();
+            return;
+        }
+        for (Ram ram : ramRepo.getAll()) {
+            if (txtDungLuongRam.getText().equalsIgnoreCase(ram.getDungLuongRam())) {
+                JOptionPane.showMessageDialog(this, "Tên loại ram này đã tồn tại trong bảng");
+                txtDungLuongRam.requestFocus();
+                return;
+            }
+        }
+        int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn thêm loại ram này chưa ?");
+        if (chon == 0) {
+            if (ramRepo.add(this.getFormData())) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                SPV.showComboboxRam();
+                this.showDataTable(ramRepo.getAll());
+            }
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int index = tblQuanLyRam.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn loại ram muốn sửa !");
+        } else {
+            int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn sửa loại ram này chưa ?");
+            if (chon == 0) {
+                if (ramRepo.update(this.getFormData(), ramRepo.getAll().get(index).getIdRam())) {
+                    JOptionPane.showMessageDialog(this, "Sửa thành công");
+                    SPV.showComboboxRam();
+                    this.showDataTable(ramRepo.getAll());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments

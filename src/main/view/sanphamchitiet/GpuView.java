@@ -1,13 +1,16 @@
 package main.view.sanphamchitiet;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import main.entity.Gpu;
 import main.repository.GpuRepository;
+import main.view.chucnang.SanPhamView;
 
 public class GpuView extends javax.swing.JFrame {
     private DefaultTableModel dtm;
     private GpuRepository gpuRepo;
+    SanPhamView SPV;
     
     private void showDataTable(ArrayList<Gpu> list){
         dtm.setRowCount(0);
@@ -21,6 +24,12 @@ public class GpuView extends javax.swing.JFrame {
         txtTenGPU.setText(gpu.getTenGPU());
     }
     
+    private Gpu getFormData(){
+        return Gpu.builder()
+                .TenGPU(txtTenGPU.getText())
+                .build();
+    }
+    
     public GpuView() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -29,6 +38,17 @@ public class GpuView extends javax.swing.JFrame {
         dtm = (DefaultTableModel)tblQuanLyGPU.getModel();
         gpuRepo = new GpuRepository();
         this.showDataTable(gpuRepo.getAll());
+    }
+    
+    public GpuView(SanPhamView sanphamview) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setTitle("Quản lý GPU");
+        dtm = (DefaultTableModel)tblQuanLyGPU.getModel();
+        gpuRepo = new GpuRepository();
+        this.showDataTable(gpuRepo.getAll());
+        SPV = sanphamview;
     }
 
     
@@ -82,10 +102,20 @@ public class GpuView extends javax.swing.JFrame {
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/32378_add_plus_icon.png"))); // NOI18N
         btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/1582587_arrow_refresh_reload_rotate icon_icon.png"))); // NOI18N
         btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/9041913_reset_icon.png"))); // NOI18N
@@ -160,6 +190,44 @@ public class GpuView extends javax.swing.JFrame {
     private void tblQuanLyGPUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyGPUMouseClicked
         this.detail(tblQuanLyGPU.getSelectedRow());
     }//GEN-LAST:event_tblQuanLyGPUMouseClicked
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (txtTenGPU.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên GPU không được để trống");
+            txtTenGPU.requestFocus();
+            return;
+        }
+        for (Gpu gpu : gpuRepo.getAll()) {
+            if (txtTenGPU.getText().equalsIgnoreCase(gpu.getTenGPU())) {
+                JOptionPane.showMessageDialog(this, "GPU này đã tồn tại trong bảng");
+                txtTenGPU.requestFocus();
+                return;
+            }
+        }
+        int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn thêm GPU này chưa ?");
+        if (chon == 0) {
+            if (gpuRepo.add(this.getFormData())) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                SPV.showComboboxGPU();
+                this.showDataTable(gpuRepo.getAll());
+            }
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int index = tblQuanLyGPU.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn GPU muốn sửa !");
+        } else {
+            int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn sửa GPU này chưa ?");
+            if (chon == 0) {
+                if (gpuRepo.update(this.getFormData(), gpuRepo.getAll().get(index).getIdGPU())) {
+                    JOptionPane.showMessageDialog(this, "Sửa thành công");
+                    this.showDataTable(gpuRepo.getAll());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

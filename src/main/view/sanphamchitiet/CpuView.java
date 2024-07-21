@@ -2,14 +2,17 @@ package main.view.sanphamchitiet;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import main.entity.Cpu;
 import main.repository.CpuRepository;
+import main.view.chucnang.SanPhamView;
 
 public class CpuView extends javax.swing.JFrame {
     private DefaultTableModel dtm;
     private CpuRepository cpuRepo;
-          
+    SanPhamView SPV;      
+    
     private void showDataTable(ArrayList<Cpu> list){
         dtm.setRowCount(0);
         list.forEach(x -> dtm.addRow(new Object[]{
@@ -22,6 +25,12 @@ public class CpuView extends javax.swing.JFrame {
         txtTenCPU.setText(cpu.getTenCPU());
    }
     
+    private Cpu getFormData() {
+        return Cpu.builder()
+                .TenCPU(txtTenCPU.getText())
+                .build();
+    }
+    
     public CpuView() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -32,6 +41,16 @@ public class CpuView extends javax.swing.JFrame {
         this.showDataTable(cpuRepo.getAll());
     }
 
+    public CpuView(SanPhamView sanPhamView) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setTitle("Quản lý CPU");
+        dtm = (DefaultTableModel) tblQuanLyCPU.getModel();
+        cpuRepo = new CpuRepository();
+        this.showDataTable(cpuRepo.getAll());
+        SPV = sanPhamView;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -83,10 +102,20 @@ public class CpuView extends javax.swing.JFrame {
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/32378_add_plus_icon.png"))); // NOI18N
         btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/1582587_arrow_refresh_reload_rotate icon_icon.png"))); // NOI18N
         btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/9041913_reset_icon.png"))); // NOI18N
@@ -161,6 +190,44 @@ public class CpuView extends javax.swing.JFrame {
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         txtTenCPU.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (txtTenCPU.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên CPU không được để trống");
+            txtTenCPU.requestFocus();
+            return;
+        }
+        for (Cpu cpu : cpuRepo.getAll()) {
+            if (txtTenCPU.getText().equalsIgnoreCase(cpu.getTenCPU())) {
+                JOptionPane.showMessageDialog(this, "CPU này đã tồn tại trong bảng");
+                txtTenCPU.requestFocus();
+                return;
+            }
+        }
+        int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn thêm CPU này chưa ?");
+        if (chon == 0) {
+            if (cpuRepo.add(this.getFormData())) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                SPV.showComboboxCPU();
+                this.showDataTable(cpuRepo.getAll());
+            }
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int index = tblQuanLyCPU.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn CPU muốn sửa !");
+        } else {
+            int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn sửa CPU này chưa ?");
+            if (chon == 0) {
+                if (cpuRepo.update(this.getFormData(), cpuRepo.getAll().get(index).getIdCPU())) {
+                    JOptionPane.showMessageDialog(this, "Sửa thành công");
+                    this.showDataTable(cpuRepo.getAll());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments

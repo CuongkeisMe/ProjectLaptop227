@@ -1,13 +1,16 @@
 package main.view.sanphamchitiet;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import main.entity.ManHinh;
 import main.repository.ManHinhRepository;
+import main.view.chucnang.SanPhamView;
 
 public class ManHinhView extends javax.swing.JFrame {
     private DefaultTableModel dtm;
     private ManHinhRepository manhinhRepo;
+    SanPhamView SPV;
     
     private void showDataTable(ArrayList<ManHinh> list){
         dtm.setRowCount(0);
@@ -21,6 +24,12 @@ public class ManHinhView extends javax.swing.JFrame {
         txtKichThuocMH.setText(mh.getKichThuoc());
     }
     
+    private ManHinh getFormData(){
+        return ManHinh.builder()
+                .KichThuoc(txtKichThuocMH.getText())
+                .build();
+    }
+    
     public ManHinhView() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -29,6 +38,17 @@ public class ManHinhView extends javax.swing.JFrame {
         dtm = (DefaultTableModel)tblQuanLyManHinh.getModel();
         manhinhRepo = new ManHinhRepository();
         this.showDataTable(manhinhRepo.getAll());
+    }
+    
+    public ManHinhView(SanPhamView sanphamview) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setTitle("Quản lý màn hình");
+        dtm = (DefaultTableModel)tblQuanLyManHinh.getModel();
+        manhinhRepo = new ManHinhRepository();
+        this.showDataTable(manhinhRepo.getAll());
+        SPV = sanphamview;
     }
 
     @SuppressWarnings("unchecked")
@@ -143,10 +163,20 @@ public class ManHinhView extends javax.swing.JFrame {
         btnAdd1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/32378_add_plus_icon.png"))); // NOI18N
         btnAdd1.setText("Thêm");
+        btnAdd1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdd1ActionPerformed(evt);
+            }
+        });
 
         btnUpdate1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/1582587_arrow_refresh_reload_rotate icon_icon.png"))); // NOI18N
         btnUpdate1.setText("Sửa");
+        btnUpdate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdate1ActionPerformed(evt);
+            }
+        });
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/9041913_reset_icon.png"))); // NOI18N
@@ -221,6 +251,45 @@ public class ManHinhView extends javax.swing.JFrame {
     private void tblQuanLyManHinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyManHinhMouseClicked
         this.detail(tblQuanLyManHinh.getSelectedRow());
     }//GEN-LAST:event_tblQuanLyManHinhMouseClicked
+
+    private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
+        if (txtKichThuocMH.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Kích thước màn hình không được để trống");
+            txtKichThuocMH.requestFocus();
+            return;
+        }
+        for (ManHinh manhinh : manhinhRepo.getAll()) {
+            if (txtTenCPU.getText().equalsIgnoreCase(manhinh.getKichThuoc())) {
+                JOptionPane.showMessageDialog(this, "Kích thước này đã tồn tại trong bảng");
+                txtKichThuocMH.requestFocus();
+                return;
+            }
+        }
+        int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn thêm kích thước này chưa ?");
+        if (chon == 0) {
+            if (manhinhRepo.add(this.getFormData())) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                SPV.showComboboxManHinh();
+                this.showDataTable(manhinhRepo.getAll());
+            }
+        }
+    }//GEN-LAST:event_btnAdd1ActionPerformed
+
+    private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
+        int index = tblQuanLyManHinh.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn kích thước màn hình muốn sửa !");
+        } else {
+            int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn sửa kích thước màn hình này chưa ?");
+            if (chon == 0) {
+                if (manhinhRepo.update(this.getFormData(), manhinhRepo.getAll().get(index).getIdManHinh())) {
+                    JOptionPane.showMessageDialog(this, "Sửa thành công");
+                    SPV.showComboboxManHinh();
+                    this.showDataTable(manhinhRepo.getAll());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnUpdate1ActionPerformed
 
     /**
      * @param args the command line arguments

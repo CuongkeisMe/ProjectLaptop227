@@ -1,13 +1,16 @@
 package main.view.sanphamchitiet;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import main.entity.OCung;
 import main.repository.OCungRepository;
+import main.view.chucnang.SanPhamView;
 
 public class OCungView extends javax.swing.JFrame {
     private DefaultTableModel dtm;
     private OCungRepository ocungRepo;
+    SanPhamView SPV;
     
     private void showDataTable(ArrayList<OCung> list){
         dtm.setRowCount(0);
@@ -21,6 +24,12 @@ public class OCungView extends javax.swing.JFrame {
         txtLoaiOCung.setText(oc.getMaOCung());
     }
     
+    private OCung getFormData(){
+        return OCung.builder()
+                .LoaiOCung(txtLoaiOCung.getText())
+                .build();
+    }
+    
     public OCungView() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -29,6 +38,17 @@ public class OCungView extends javax.swing.JFrame {
         dtm = (DefaultTableModel)tblQuanLyOCung.getModel();
         ocungRepo = new OCungRepository();
         this.showDataTable(ocungRepo.getAll());
+    }
+    
+    public OCungView(SanPhamView sanphamview) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setTitle("Quản lý Ổ cứng");
+        dtm = (DefaultTableModel)tblQuanLyOCung.getModel();
+        ocungRepo = new OCungRepository();
+        this.showDataTable(ocungRepo.getAll());
+        SPV = sanphamview;
     }
 
     @SuppressWarnings("unchecked")
@@ -81,10 +101,20 @@ public class OCungView extends javax.swing.JFrame {
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/32378_add_plus_icon.png"))); // NOI18N
         btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/1582587_arrow_refresh_reload_rotate icon_icon.png"))); // NOI18N
         btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/9041913_reset_icon.png"))); // NOI18N
@@ -163,6 +193,45 @@ public class OCungView extends javax.swing.JFrame {
     private void tblQuanLyOCungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyOCungMouseClicked
         this.detail(tblQuanLyOCung.getSelectedRow());
     }//GEN-LAST:event_tblQuanLyOCungMouseClicked
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (txtLoaiOCung.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên loại ổ cứng không được để trống");
+            txtLoaiOCung.requestFocus();
+            return;
+        }
+        for (OCung ocung : ocungRepo.getAll()) {
+            if (txtLoaiOCung.getText().equalsIgnoreCase(ocung.getLoaiOCung())) {
+                JOptionPane.showMessageDialog(this, "Tên loại ổ cứng này đã tồn tại trong bảng");
+                txtLoaiOCung.requestFocus();
+                return;
+            }
+        }
+        int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn thêm loại ổ cứng này chưa ?");
+        if (chon == 0) {
+            if (ocungRepo.add(this.getFormData())) {
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                SPV.showComboboxOCung();
+                this.showDataTable(ocungRepo.getAll());
+            }
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int index = tblQuanLyOCung.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn loại ổ cứng muốn sửa !");
+        } else {
+            int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn sửa loại ổ cứng này chưa ?");
+            if (chon == 0) {
+                if (ocungRepo.update(this.getFormData(), ocungRepo.getAll().get(index).getIdOCung())) {
+                    JOptionPane.showMessageDialog(this, "Sửa thành công");
+                    SPV.showComboboxOCung();
+                    this.showDataTable(ocungRepo.getAll());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
