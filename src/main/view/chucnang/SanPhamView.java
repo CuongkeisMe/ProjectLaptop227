@@ -36,42 +36,42 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     private PinRepository pinRepository;
     private OCungRepository ocungRepository;
     
-    private void showComboboxCPU(){
+    public void showComboboxCPU(){
         cpuDcbm.removeAllElements();
         for(Cpu cpu : cpuRepository.getAll()){
             cpuDcbm.addElement(cpu.getTenCPU());
         }
     }
     
-    private void showComboboxGPU(){
+    public void showComboboxGPU(){
         gpuDcbm.removeAllElements();
         for(Gpu gpu : gpuRepository.getAll()){
             gpuDcbm.addElement(gpu.getTenGPU());
         }
     }
     
-    private void showComboboxRam(){
+    public void showComboboxRam(){
         ramDcbm.removeAllElements();
         for(Ram ram : ramRepository.getAll()){
             ramDcbm.addElement(ram.getDungLuongRam());
         }
     }
     
-    private void showComboboxManHinh(){
+    public void showComboboxManHinh(){
         manhinhDcbm.removeAllElements();
         for(ManHinh mh : manhinhRepository.getAll()){
             manhinhDcbm.addElement(mh.getKichThuoc());
         }
     }
     
-    private void showComboboxPin(){
+    public void showComboboxPin(){
         pinDcbm.removeAllElements();
         for(Pin pin : pinRepository.getAll()){
             pinDcbm.addElement(pin.getDungLuongPin());
         }
     }
     
-    private void showComboboxOCung(){
+    public void showComboboxOCung(){
         ocungDcbm.removeAllElements();
         for(OCung oc : ocungRepository.getAll()){
             ocungDcbm.addElement(oc.getLoaiOCung());
@@ -485,32 +485,32 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddCPUMouseClicked
 
     private void btnAddCPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCPUActionPerformed
-        CpuView cpu = new CpuView();
+        CpuView cpu = new CpuView(this);
         cpu.setVisible(true);
     }//GEN-LAST:event_btnAddCPUActionPerformed
 
     private void btnAddGPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGPUActionPerformed
-        GpuView gpu = new GpuView();
+        GpuView gpu = new GpuView(this);
         gpu.setVisible(true);
     }//GEN-LAST:event_btnAddGPUActionPerformed
 
     private void btnAddRamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRamActionPerformed
-        RamView ram = new RamView();
+        RamView ram = new RamView(this);
         ram.setVisible(true);
     }//GEN-LAST:event_btnAddRamActionPerformed
 
     private void btnAddOCungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddOCungActionPerformed
-        OCungView oc = new OCungView();
+        OCungView oc = new OCungView(this);
         oc.setVisible(true);
     }//GEN-LAST:event_btnAddOCungActionPerformed
 
     private void btnAddKichThuocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddKichThuocActionPerformed
-        ManHinhView mh = new ManHinhView();
+        ManHinhView mh = new ManHinhView(this);
         mh.setVisible(true);
     }//GEN-LAST:event_btnAddKichThuocActionPerformed
 
     private void btnAddPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPinActionPerformed
-        PinView p = new PinView();
+        PinView p = new PinView(this);
         p.setVisible(true);
     }//GEN-LAST:event_btnAddPinActionPerformed
 
