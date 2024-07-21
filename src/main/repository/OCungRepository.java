@@ -33,4 +33,39 @@ public class OCungRepository {
         }
         return listOCung;
     }
+    
+    public Boolean add(OCung ocung) {
+        String sql = """
+                     INSERT INTO [dbo].[OCung]
+                                ([LoaiOCung]
+                                ,[TrangThai])
+                          VALUES
+                                (?,1)
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, ocung.getLoaiOCung());
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+    
+    public Boolean update(OCung ocung, Integer IdOcung){
+        String sql = """
+                     UPDATE [dbo].[OCung]
+                        SET [LoaiOCung] = ?
+                      WHERE id_OCung = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, ocung.getLoaiOCung());
+            ps.setObject(2, IdOcung);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
 }

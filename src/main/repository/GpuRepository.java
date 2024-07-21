@@ -33,4 +33,39 @@ public class GpuRepository {
         }
         return listGpu;
     }
+    
+    public Boolean add(Gpu gpu) {
+        String sql = """
+                     INSERT INTO [dbo].[GPU]
+                                ([TenGPU]
+                                ,[TrangThai])
+                          VALUES
+                                (?,1)
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, gpu.getTenGPU());
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+    
+    public Boolean update(Gpu gpu, Integer IdGpu){
+        String sql = """
+                     UPDATE [dbo].[GPU]
+                        SET [TenGPU] = ?
+                      WHERE id_GPU = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, gpu.getTenGPU());
+            ps.setObject(2, IdGpu);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
 }

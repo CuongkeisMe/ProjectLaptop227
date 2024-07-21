@@ -33,4 +33,39 @@ public class RamRepository {
         }
         return listRam;
     }
+    
+    public Boolean add(Ram ram) {
+        String sql = """
+                     INSERT INTO [dbo].[Ram]
+                                ([DungLuongRam]
+                                ,[TrangThai])
+                          VALUES
+                                (?,1)
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, ram.getDungLuongRam());
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+    
+    public Boolean update(Ram ram, Integer IdRam){
+        String sql = """
+                     UPDATE [dbo].[Ram]
+                        SET [DungLuongRam] = ?
+                      WHERE id_Ram = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, ram.getDungLuongRam());
+            ps.setObject(2, IdRam);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
 }

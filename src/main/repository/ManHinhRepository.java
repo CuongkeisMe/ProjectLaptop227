@@ -33,4 +33,39 @@ public class ManHinhRepository {
         }
         return listManHinh;
     }
+    
+    public Boolean add(ManHinh manhinh) {
+        String sql = """
+                     INSERT INTO [dbo].[ManHinh]
+                                ([KichThuoc]
+                                ,[TrangThai])
+                          VALUES
+                                (?,1)
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, manhinh.getKichThuoc());
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+    
+    public Boolean update(ManHinh manhinh, Integer IdManhinh){
+        String sql = """
+                     UPDATE [dbo].[ManHinh]
+                        SET [KichThuoc] = ?
+                      WHERE id_ManHinh = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, manhinh.getKichThuoc());
+            ps.setObject(2, IdManhinh);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
 }

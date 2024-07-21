@@ -33,4 +33,39 @@ public class CpuRepository {
         }
         return listCPU;
     }
+    
+    public Boolean add(Cpu cpu) {
+        String sql = """
+                     INSERT INTO [dbo].[CPU]
+                                ([TenCPU]
+                                ,[TrangThai])
+                          VALUES
+                                (?,1)
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, cpu.getTenCPU());
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+    
+    public Boolean update(Cpu cpu, Integer IdCpu){
+        String sql = """
+                     UPDATE [dbo].[CPU]
+                        SET [TenCPU] = ?
+                      WHERE id_CPU = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, cpu.getTenCPU());
+            ps.setObject(2, IdCpu);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
 }

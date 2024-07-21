@@ -33,4 +33,39 @@ public class PinRepository {
         }
         return listPin;
     }
+    
+    public Boolean add(Pin pin) {
+        String sql = """
+                     INSERT INTO [dbo].[Pin]
+                                ([DungLuongPin]
+                                ,[TrangThai])
+                          VALUES
+                                (?,1)
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, pin.getDungLuongPin());
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+    
+    public Boolean update(Pin pin, Integer IdPin){
+        String sql = """
+                     UPDATE [dbo].[Pin]
+                        SET [DungLuongPin] = ?
+                      WHERE id_Pin = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, pin.getDungLuongPin());
+            ps.setObject(2, IdPin);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
 }
