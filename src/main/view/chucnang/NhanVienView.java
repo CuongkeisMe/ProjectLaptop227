@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import main.entity.KhachHang;
@@ -27,7 +28,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         df.setRowCount(0);
 //        AtomicInteger index = new AtomicInteger(1);
         list.forEach(s -> df.addRow(new Object[]{
-            s.getMa(), s.getTen(), s.getNgaySinh(),s.isGioiTinh(), s.getDiaChi(),
+            s.getId(),s.getMa(), s.getTen(), s.getNgaySinh(),s.isGioiTinh(), s.getDiaChi(),
             s.getSdt(),s.getEmail(),s.getVaiTro(),s.getTrangThai()
         }));
     }
@@ -43,6 +44,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbNhanVien = new javax.swing.JTable();
@@ -52,9 +54,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         btXoa = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         btReset = new javax.swing.JButton();
-        txtVaiTro = new javax.swing.JFormattedTextField();
         btImg = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -62,7 +62,6 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtTen = new javax.swing.JTextField();
-        txtMa = new javax.swing.JTextField();
         txtDiaChi = new javax.swing.JTextField();
         txtSdt = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
@@ -71,17 +70,21 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         btThem = new javax.swing.JButton();
         btSua = new javax.swing.JButton();
         dateNgaySinh = new com.toedter.calendar.JDateChooser();
+        rdQuanLi = new javax.swing.JRadioButton();
+        rdNhanVien = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
 
         tbNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã NV", "Tên NV", "Ngày sinh", "Giới tính", "Địa chỉ ", "SDT", "Email", "Vai trò", "Trạng thái"
+                "ID", "Mã NV", "Tên NV", "Ngày sinh", "Giới tính", "Địa chỉ ", "SDT", "Email", "Vai trò", "Trạng thái"
             }
         ));
         tbNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -125,8 +128,6 @@ public class NhanVienView extends javax.swing.JInternalFrame {
 
         btImg.setText("jButton2");
 
-        jLabel1.setText("Mã nhân viên ");
-
         jLabel2.setText("Địa chỉ ");
 
         jLabel3.setText("Tên nhân viên ");
@@ -142,12 +143,6 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         txtTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTenActionPerformed(evt);
-            }
-        });
-
-        txtMa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMaActionPerformed(evt);
             }
         });
 
@@ -169,6 +164,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
             }
         });
 
+        buttonGroup2.add(rdNam);
         rdNam.setSelected(true);
         rdNam.setText("Nam");
         rdNam.addActionListener(new java.awt.event.ActionListener() {
@@ -177,6 +173,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
             }
         });
 
+        buttonGroup2.add(rdNu);
         rdNu.setText("Nữ");
         rdNu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,6 +191,18 @@ public class NhanVienView extends javax.swing.JInternalFrame {
 
         btSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btSua.setText("Sửa");
+        btSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSuaActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(rdQuanLi);
+        rdQuanLi.setSelected(true);
+        rdQuanLi.setText("quản lí");
+
+        buttonGroup1.add(rdNhanVien);
+        rdNhanVien.setText("nhân viên");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -222,8 +231,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -235,8 +243,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(txtTen)
-                                    .addComponent(txtMa, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                                    .addComponent(dateNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(dateNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
                                 .addGap(134, 134, 134)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -247,7 +254,10 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                             .addComponent(txtSdt, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtVaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(rdQuanLi)
+                                .addGap(48, 48, 48)
+                                .addComponent(rdNhanVien)))
                         .addGap(93, 93, 93))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -268,8 +278,6 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
                             .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(23, 23, 23)
@@ -291,7 +299,8 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                             .addComponent(rdNam)
                             .addComponent(rdNu)
                             .addComponent(jLabel9)
-                            .addComponent(txtVaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(rdQuanLi)
+                            .addComponent(rdNhanVien))
                         .addGap(21, 21, 21)))
                 .addContainerGap())
         );
@@ -328,7 +337,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                         .addComponent(jLabel10)
                         .addGap(38, 38, 38)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -348,16 +357,19 @@ public class NhanVienView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btTimActionPerformed
 
     private void btXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btXoaActionPerformed
-        // TODO add your handling code here:
+        int index = tbNhanVien.getSelectedRow();
+        if(rp .delete(rp.getAll().get(index).getId())){
+            JOptionPane.showMessageDialog(this, "xoa thanh cong");
+            showDataTB(rp.getAll());
+        }else{
+            JOptionPane.showMessageDialog(this, "Xoa that bail");
+        }    
+        
     }//GEN-LAST:event_btXoaActionPerformed
 
     private void txtTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTenActionPerformed
-
-    private void txtMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaActionPerformed
 
     private void txtDiaChiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDiaChiActionPerformed
         // TODO add your handling code here:
@@ -381,22 +393,26 @@ public class NhanVienView extends javax.swing.JInternalFrame {
 
     private void btThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btThemActionPerformed
         rp.add(getFormData());
-        this.showDataTB(rp.getAll());
+        showDataTB(rp.getAll());
     }//GEN-LAST:event_btThemActionPerformed
 
     private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        txtMa.setText("");
+
         txtTen.setText("");
         dateNgaySinh.setDate(null);
         txtDiaChi.setText("");
         txtEmail.setText("");
-        txtVaiTro.setText("");
                 
     }//GEN-LAST:event_btResetActionPerformed
 
+    private void btSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSuaActionPerformed
+        int index = tbNhanVien.getSelectedRow();
+        rp.update(getFormData(), rp.getAll().get(index).getId());
+        showDataTB(rp.getAll());
+    }//GEN-LAST:event_btSuaActionPerformed
+
     private void detail (int index){
         NhanVien nv = rp.getAll().get(index);
-        txtMa.setText(nv.getMa());
         txtTen.setText(nv.getTen());
         dateNgaySinh.setDate(nv.getNgaySinh());
         rdNam.setSelected(nv.isGioiTinh());
@@ -404,21 +420,21 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         txtDiaChi.setText(nv.getDiaChi());
         txtSdt.setText(nv.getSdt());
         txtEmail.setText(nv.getEmail());
-        txtVaiTro.setText(nv.getVaiTro());
+        rdQuanLi.setSelected(nv.getVaiTro());
+        rdNhanVien.setSelected(!nv.getVaiTro());
 //        ImageIcon icon = new ImageIcon("images/avatar.jpeg");
 //        btImg.setIcon(icon);
     }
     
     private NhanVien getFormData(){
         return NhanVien.builder()
-                .ma(txtMa.getText())
                 .ten(txtTen.getText())
                 .ngaySinh(dateNgaySinh.getDate())
                 .gioiTinh(rdNam.isSelected())
                 .diaChi(txtDiaChi.getText())
                 .sdt(txtSdt.getText())
                 .email(txtEmail.getText())
-                .vaiTro(txtVaiTro.getText())
+                .vaiTro(rdQuanLi.isSelected())
                 .build();
         
     }
@@ -430,8 +446,8 @@ public class NhanVienView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btTim;
     private javax.swing.JButton btXoa;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private com.toedter.calendar.JDateChooser dateNgaySinh;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -444,14 +460,14 @@ public class NhanVienView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton rdNam;
+    private javax.swing.JRadioButton rdNhanVien;
     private javax.swing.JRadioButton rdNu;
+    private javax.swing.JRadioButton rdQuanLi;
     private javax.swing.JTable tbNhanVien;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtSdt;
     private javax.swing.JTextField txtTen;
     private javax.swing.JTextField txtTim;
-    private javax.swing.JFormattedTextField txtVaiTro;
     // End of variables declaration//GEN-END:variables
 }

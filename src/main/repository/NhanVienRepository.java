@@ -1,4 +1,3 @@
-
 package main.repository;
 
 import java.util.ArrayList;
@@ -9,7 +8,8 @@ import java.sql.PreparedStatement;
 import main.config.DBConnect;
 
 public class NhanVienRepository {
-    public ArrayList<NhanVien> getAll(){
+
+    public ArrayList<NhanVien> getAll() {
         ArrayList<NhanVien> list = new ArrayList<>();
         String sql = """
                      SELECT [id_NhanVien]
@@ -25,10 +25,11 @@ public class NhanVienRepository {
                            ,[VaiTro]
                            ,[TrangThai]
                        FROM [dbo].[NhanVien]
+                     WHERE [TrangThai] = 1
                      """;
-        try(Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 NhanVien nv = NhanVien.builder()
                         .id(rs.getInt(1))
                         .ma(rs.getString(2))
@@ -40,24 +41,22 @@ public class NhanVienRepository {
                         .sdt(rs.getString(8))
                         .email(rs.getString(9))
                         .diaChi(rs.getString(10))
-                        .vaiTro(rs.getString(11))
+                        .vaiTro(rs.getBoolean(11))
                         .trangThai(rs.getString(12))
                         .build();
                 list.add(nv);
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
-    
-    public Boolean add(NhanVien nv){
+
+    public Boolean add(NhanVien nv) {
         String sql = """
-                     INSERT INTO [dbo].[NhanVien]
+                        INSERT INTO [dbo].[NhanVien]
                                 (
-                                [UserName]
-                                ,[Pass]
                                 ,[HoTen]
                                 ,[NgaySinh]
                                 ,[GioiTinh]
@@ -66,23 +65,66 @@ public class NhanVienRepository {
                                 ,[DiaChi]
                                 ,[VaiTro]
                                 ,[TrangThai])
-                          VALUES (?,?,?,?,?,?,?,?,?,1)
+                          VALUES(?,?,?,?,?,?,?,?,?,1)
                      """;
-        int check = 0; 
-        try(Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setObject(1, nv.getUserName());
-            ps.setObject(2, nv.getPass());
-            ps.setObject(3, nv.getTen());
-            ps.setObject(4, nv.getNgaySinh());
-            ps.setObject(5, nv.isGioiTinh());
-            ps.setObject(6, nv.getSdt());
-            ps.setObject(7, nv.getEmail());
-            ps.setObject(8, nv.getDiaChi());
-            ps.setObject(9, nv.getVaiTro());
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, nv.getTen());
+            ps.setObject(2, nv.getNgaySinh());
+            ps.setObject(3, nv.isGioiTinh());
+            ps.setObject(4, nv.getSdt());
+            ps.setObject(5, nv.getEmail());
+            ps.setObject(6, nv.getDiaChi());
+            ps.setObject(7, nv.getVaiTro());
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+
+    public Boolean delete(Integer id) {
+        String sql = """
+                     UPDATE [dbo].[NhanVien]
+                        SET [TrangThai] = 0
+                      WHERE id_NhanVien = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, id);
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return check >0 ;
+        return check > 0;
+    }
+    
+        public Boolean update(NhanVien nv,Integer id) {
+        String sql = """
+                     UPDATE [dbo].[NhanVien]
+                        SET [HoTen] = ?
+                           ,[NgaySinh] = ?
+                           ,[GioiTinh] = ?
+                           ,[SDT] = ?
+                           ,[Email] = ?
+                           ,[DiaChi] = ?
+                           ,[VaiTro] = ?
+                      WHERE id_NhanVien = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, nv.getTen());
+            ps.setObject(2, nv.getNgaySinh());
+            ps.setObject(3, nv.isGioiTinh());
+            ps.setObject(4, nv.getSdt());
+            ps.setObject(5, nv.getEmail());
+            ps.setObject(6, nv.getDiaChi());
+            ps.setObject(7, nv.getVaiTro());
+            ps.setObject(8, id);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return check > 0;
     }
 }

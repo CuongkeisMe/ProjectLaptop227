@@ -26,7 +26,7 @@ public class NhanVien {
     private String sdt; 
     private String email; 
     private String diaChi;
-    private String vaiTro; 
+    private Boolean vaiTro; 
     private String trangThai; 
     
 }
