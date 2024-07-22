@@ -1,6 +1,7 @@
 package main.view.sanphamchitiet;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import main.entity.ManHinh;
@@ -14,8 +15,9 @@ public class ManHinhView extends javax.swing.JFrame {
     
     private void showDataTable(ArrayList<ManHinh> list){
         dtm.setRowCount(0);
+        AtomicInteger index = new AtomicInteger(1);
         list.forEach(x -> dtm.addRow(new Object[]{
-            x.getIdManHinh(), x.getMaManHinh(), x.getKichThuoc()
+            index.getAndIncrement(), x.getMaManHinh(), x.getKichThuoc()
         }));
     }
     

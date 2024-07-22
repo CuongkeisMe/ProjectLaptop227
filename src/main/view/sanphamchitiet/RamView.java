@@ -15,9 +15,9 @@ public class RamView extends javax.swing.JFrame {
     
     private void showDataTable(ArrayList<Ram> list){
         dtm.setRowCount(0);
-        AtomicInteger index = new AtomicInteger();
+        AtomicInteger index = new AtomicInteger(1);
         list.forEach(x -> dtm.addRow(new Object[]{
-            x.getIdRam(), x.getMaRam(), x.getDungLuongRam()
+            index.getAndIncrement(), x.getMaRam(), x.getDungLuongRam()
         }));
     }
     

@@ -1,6 +1,7 @@
 package main.view.sanphamchitiet;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -15,8 +16,9 @@ public class CpuView extends javax.swing.JFrame {
     
     private void showDataTable(ArrayList<Cpu> list){
         dtm.setRowCount(0);
+        AtomicInteger index = new AtomicInteger(1);
         list.forEach(x -> dtm.addRow(new Object[]{
-            x.getIdCPU(), x.getMaCPU(), x.getTenCPU()
+            index.getAndIncrement(), x.getMaCPU(), x.getTenCPU()
         }));
     }
     

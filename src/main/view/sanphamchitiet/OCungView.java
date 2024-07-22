@@ -1,6 +1,7 @@
 package main.view.sanphamchitiet;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import main.entity.OCung;
@@ -14,8 +15,9 @@ public class OCungView extends javax.swing.JFrame {
     
     private void showDataTable(ArrayList<OCung> list){
         dtm.setRowCount(0);
+        AtomicInteger index = new AtomicInteger(1);
         list.forEach(x -> dtm.addRow(new Object[]{
-            x.getIdOCung(), x.getMaOCung(), x.getLoaiOCung()
+            index.getAndIncrement(), x.getMaOCung(), x.getLoaiOCung()
         }));
     }
     
