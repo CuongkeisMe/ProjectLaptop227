@@ -56,16 +56,15 @@ public class NhanVienRepository {
     public Boolean add(NhanVien nv) {
         String sql = """
                         INSERT INTO [dbo].[NhanVien]
-                                (
-                                ,[HoTen]
-                                ,[NgaySinh]
-                                ,[GioiTinh]
-                                ,[SDT]
-                                ,[Email]
-                                ,[DiaChi]
-                                ,[VaiTro]
-                                ,[TrangThai])
-                          VALUES(?,?,?,?,?,?,?,?,?,1)
+                                   ([HoTen]
+                                   ,[NgaySinh]
+                                   ,[GioiTinh]
+                                   ,[SDT]
+                                   ,[Email]
+                                   ,[DiaChi]
+                                   ,[VaiTro])
+                                   ,[TrangThai]
+                             VALUES(?,?,?,?,?,?,?,1)
                      """;
         int check = 0;
         try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {

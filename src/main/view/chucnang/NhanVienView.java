@@ -12,10 +12,10 @@ import main.entity.NhanVien;
 import main.repository.NhanVienRepository;
 
 public class NhanVienView extends javax.swing.JInternalFrame {
-    
-    private DefaultTableModel df; 
-    private NhanVienRepository rp; 
-    
+
+    private DefaultTableModel df;
+    private NhanVienRepository rp;
+
     public NhanVienView() {
         initComponents();
         this.cauhinhForm();
@@ -23,22 +23,23 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         rp = new NhanVienRepository();
         this.showDataTB(rp.getAll());
     }
-    
-    private void showDataTB(ArrayList<NhanVien>list){
+
+    private void showDataTB(ArrayList<NhanVien> list) {
         df.setRowCount(0);
 //        AtomicInteger index = new AtomicInteger(1);
         list.forEach(s -> df.addRow(new Object[]{
-            s.getId(),s.getMa(), s.getTen(), s.getNgaySinh(),s.isGioiTinh(), s.getDiaChi(),
-            s.getSdt(),s.getEmail(),s.getVaiTro(),s.getTrangThai()
+            //            index.getAndIncrement(),
+            s.getId(), s.getMa(), s.getTen(), s.getNgaySinh(), s.isGioiTinh()?"Nam":"Nữ", s.getDiaChi(),
+            s.getSdt(), s.getEmail(), s.getVaiTro(), s.getTrangThai()
         }));
     }
-    
-    public void cauhinhForm(){
+
+    public void cauhinhForm() {
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -358,13 +359,18 @@ public class NhanVienView extends javax.swing.JInternalFrame {
 
     private void btXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btXoaActionPerformed
         int index = tbNhanVien.getSelectedRow();
-        if(rp .delete(rp.getAll().get(index).getId())){
-            JOptionPane.showMessageDialog(this, "xoa thanh cong");
-            showDataTB(rp.getAll());
-        }else{
-            JOptionPane.showMessageDialog(this, "Xoa that bail");
-        }    
-        
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Chua chon dong de xoa");
+        } else {
+            if (rp.delete(rp.getAll().get(index).getId())) {
+                JOptionPane.showMessageDialog(this, "xoa thanh cong");
+                showDataTB(rp.getAll());
+            } else {
+                JOptionPane.showMessageDialog(this, "Xoa that bail");
+            }
+        }
+
+
     }//GEN-LAST:event_btXoaActionPerformed
 
     private void txtTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenActionPerformed
@@ -402,16 +408,26 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         dateNgaySinh.setDate(null);
         txtDiaChi.setText("");
         txtEmail.setText("");
-                
+
     }//GEN-LAST:event_btResetActionPerformed
 
     private void btSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSuaActionPerformed
         int index = tbNhanVien.getSelectedRow();
-        rp.update(getFormData(), rp.getAll().get(index).getId());
-        showDataTB(rp.getAll());
+        if(index == -1){
+            JOptionPane.showMessageDialog(this, "Chua chon dong de sua");
+        }else{
+            if(rp.update(getFormData(), rp.getAll().get(index).getId())){
+                JOptionPane.showMessageDialog(this, "Sua thanh cong");
+                showDataTB(rp.getAll());
+            }else{
+                JOptionPane.showMessageDialog(this, "Sua that bai");
+            }
+        }
+        
+        
     }//GEN-LAST:event_btSuaActionPerformed
 
-    private void detail (int index){
+    private void detail(int index) {
         NhanVien nv = rp.getAll().get(index);
         txtTen.setText(nv.getTen());
         dateNgaySinh.setDate(nv.getNgaySinh());
@@ -425,8 +441,8 @@ public class NhanVienView extends javax.swing.JInternalFrame {
 //        ImageIcon icon = new ImageIcon("images/avatar.jpeg");
 //        btImg.setIcon(icon);
     }
-    
-    private NhanVien getFormData(){
+
+    private NhanVien getFormData() {
         return NhanVien.builder()
                 .ten(txtTen.getText())
                 .ngaySinh(dateNgaySinh.getDate())
@@ -436,7 +452,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                 .email(txtEmail.getText())
                 .vaiTro(rdQuanLi.isSelected())
                 .build();
-        
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btImg;
