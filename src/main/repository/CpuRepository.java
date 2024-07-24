@@ -68,4 +68,31 @@ public class CpuRepository {
         }
         return check > 0;
     }
+    
+    public Cpu getCpuByMa(String maCPU){
+        String query = """
+                      SELECT [id_CPU]
+                            ,[MaCPU]
+                            ,[TenCPU]
+                            ,[TrangThai]
+                        FROM [dbo].[CPU]
+                       WHERE [MaCPU] = ?
+                      """;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setObject(1, maCPU);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Cpu cpu = Cpu.builder()
+                        .IdCPU(rs.getInt(1))
+                        .MaCPU(rs.getString(2))
+                        .TenCPU(rs.getString(3))
+                        .TrangThai(rs.getInt(4))
+                        .build();
+                return cpu;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
+    }
 }

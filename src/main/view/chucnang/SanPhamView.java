@@ -2,10 +2,12 @@ package main.view.chucnang;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import main.entity.Cpu;
 import main.entity.Gpu;
+import main.entity.Imei;
 import main.entity.ManHinh;
 import main.entity.OCung;
 import main.entity.Pin;
@@ -19,6 +21,7 @@ import main.repository.OCungRepository;
 import main.repository.PinRepository;
 import main.repository.RamRepository;
 import main.repository.SanPhamRepository;
+import main.request.SanPhamRequest;
 import main.response.SanPhamResponse;
 import main.view.sanphamchitiet.CpuView;
 import main.view.sanphamchitiet.GpuView;
@@ -29,10 +32,11 @@ import main.view.sanphamchitiet.PinView;
 import main.view.sanphamchitiet.RamView;
 
 public class SanPhamView extends javax.swing.JInternalFrame {
+
     private DefaultTableModel dtm;
-    
+
     private SanPhamRepository sanphamRepo;
-    
+
     private DefaultComboBoxModel cpuDcbm;
     private DefaultComboBoxModel gpuDcbm;
     private DefaultComboBoxModel ramDcbm;
@@ -40,7 +44,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel pinDcbm;
     private DefaultComboBoxModel ocungDcbm;
     private DefaultComboBoxModel imeiDcbm;
-    
+
     private CpuRepository cpuRepository;
     private GpuRepository gpuRepository;
     private RamRepository ramRepository;
@@ -48,6 +52,8 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     private PinRepository pinRepository;
     private OCungRepository ocungRepository;
     private ImeiRepository imeiRepository;
+
+    private ImeiView imeiView;
 
     public SanPhamView() {
         initComponents();
@@ -61,18 +67,18 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         this.showComboboxOCung();
         this.showComboboxPin();
         this.showComboboxRam();
-        dtm = (DefaultTableModel)tblQuanLySP.getModel();
+        dtm = (DefaultTableModel) tblQuanLySP.getModel();
         sanphamRepo = new SanPhamRepository();
         this.showDataTable(sanphamRepo.getAll());
     }
-    
-    public void cauhinhForm(){
+
+    public void cauhinhForm() {
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
     }
-    
-    private void cboDinhDang(){
+
+    private void cboDinhDang() {
         cpuDcbm = (DefaultComboBoxModel) cboCPU.getModel();
         gpuDcbm = (DefaultComboBoxModel) cboGPU.getModel();
         ramDcbm = (DefaultComboBoxModel) cboRam.getModel();
@@ -81,8 +87,8 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         ocungDcbm = (DefaultComboBoxModel) cboOCung.getModel();
         imeiDcbm = (DefaultComboBoxModel) cboImei.getModel();
     }
-    
-    private void repositoryDinhDang(){
+
+    private void repositoryDinhDang() {
         cpuRepository = new CpuRepository();
         gpuRepository = new GpuRepository();
         ramRepository = new RamRepository();
@@ -91,69 +97,69 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         ocungRepository = new OCungRepository();
         imeiRepository = new ImeiRepository();
     }
-    
-    public void showComboboxImei(){
+
+    public void showComboboxImei() {
         imeiDcbm.removeAllElements();
         imeiDcbm.addElement("");
-        for(main.entity.Imei imei : imeiRepository.getAll()){
+        for (Imei imei : imeiRepository.getAll()) {   
             imeiDcbm.addElement(imei.getMaImei());
         }
     }
-    
-    public void showComboboxCPU(){
+
+    public void showComboboxCPU() {
         cpuDcbm.removeAllElements();
-        for(Cpu cpu : cpuRepository.getAll()){
+        for (Cpu cpu : cpuRepository.getAll()) {
             cpuDcbm.addElement(cpu.getTenCPU());
         }
     }
-    
-    public void showComboboxGPU(){
+
+    public void showComboboxGPU() {
         gpuDcbm.removeAllElements();
-        for(Gpu gpu : gpuRepository.getAll()){
+        for (Gpu gpu : gpuRepository.getAll()) {
             gpuDcbm.addElement(gpu.getTenGPU());
         }
     }
-    
-    public void showComboboxRam(){
+
+    public void showComboboxRam() {
         ramDcbm.removeAllElements();
-        for(Ram ram : ramRepository.getAll()){
+        for (Ram ram : ramRepository.getAll()) {
             ramDcbm.addElement(ram.getDungLuongRam());
         }
     }
-    
-    public void showComboboxManHinh(){
+
+    public void showComboboxManHinh() {
         manhinhDcbm.removeAllElements();
-        for(ManHinh mh : manhinhRepository.getAll()){
+        for (ManHinh mh : manhinhRepository.getAll()) {
             manhinhDcbm.addElement(mh.getKichThuoc());
         }
     }
-    
-    public void showComboboxPin(){
+
+    public void showComboboxPin() {
         pinDcbm.removeAllElements();
-        for(Pin pin : pinRepository.getAll()){
+        for (Pin pin : pinRepository.getAll()) {
             pinDcbm.addElement(pin.getDungLuongPin());
         }
     }
-    
-    public void showComboboxOCung(){
+
+    public void showComboboxOCung() {
         ocungDcbm.removeAllElements();
-        for(OCung oc : ocungRepository.getAll()){
+        for (OCung oc : ocungRepository.getAll()) {
             ocungDcbm.addElement(oc.getLoaiOCung());
         }
     }
-    
-    public void showDataTable(ArrayList<SanPhamResponse> list){
+
+    public void showDataTable(ArrayList<SanPhamResponse> list) {
         dtm.setRowCount(0);
         list.forEach(x -> dtm.addRow(new Object[]{
-            x.getMaSanPham(), x.getTenSanPham(), x.getHinhAnh(), x.getTenCPU(), x.getTenGPU(), 
-            x.getLoaiOCung(), x.getDungLuongRam(), x.getKichThuoc(), x.getDungLuongPin(), x.getSoLuong(), 
+            x.getMaSanPham(), x.getTenSanPham(), x.getHinhAnh(), x.getTenCPU(), x.getTenGPU(),
+            x.getLoaiOCung(), x.getDungLuongRam(), x.getKichThuoc(), x.getDungLuongPin(), x.getSoLuong(),
             x.getGiaNhap(), x.getGiaBan()
         }));
-    }   
+    }
 
-    private void detail(int index){
+    private void detail(int index) {
         SanPhamResponse spReponse = sanphamRepo.getAll().get(index);
-        txtTenSP.setText(spReponse.getTenCPU());
+        txtTenSP.setText(spReponse.getTenSanPham());
         cboImei.setSelectedItem(spReponse.getMaImei());
         cboCPU.setSelectedItem(spReponse.getTenCPU());
         cboGPU.setSelectedItem(spReponse.getTenGPU());
@@ -164,26 +170,33 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         txtSoLuong.setText(String.valueOf(spReponse.getSoLuong()));
         txtGiaNhap.setText(String.valueOf(spReponse.getGiaNhap()));
         txtGiaBan.setText(String.valueOf(spReponse.getGiaBan()));
-   }
-    
-    private SanPhamResponse getFormData(){
-        return SanPhamResponse.builder()
+    }
+
+    private SanPhamRequest getFormData() {
+        int indexCPU = cboCPU.getSelectedIndex();
+        int indexGPU = cboGPU.getSelectedIndex();
+        int indexRam = cboRam.getSelectedIndex();
+        int indexManHinh = cboKichThuoc.getSelectedIndex();
+        int indexOCung = cboOCung.getSelectedIndex();
+        int indexPin = cboPin.getSelectedIndex();
+        return SanPhamRequest.builder()
+                .IdRam(ramRepository.getAll().get(indexPin).getIdRam())
+                .IdCPU(cpuRepository.getAll().get(indexPin).getIdCPU())
+                .IdGPU(gpuRepository.getAll().get(indexPin).getIdGPU())
+                .IdManHinh(manhinhRepository.getAll().get(indexPin).getIdManHinh())
+                .IdOCung(ocungRepository.getAll().get(indexPin).getIdOCung())
+                .IdPin(pinRepository.getAll().get(indexPin).getIdPin())
                 .TenSanPham(txtTenSP.getText())
-                .TenCPU(cboCPU.getSelectedItem().toString())
-                .TenGPU(cboGPU.getSelectedItem().toString())
-                .LoaiOCung(cboOCung.getSelectedItem().toString())
-                .DungLuongRam(cboRam.getSelectedItem().toString())
-                .KichThuoc(cboKichThuoc.getSelectedItem().toString())
-                .DungLuongPin(cboPin.getSelectedItem().toString())
-                .SoLuong(Integer.valueOf(txtSoLuong.getText()))
-                .GiaNhap(Integer.valueOf(txtGiaBan.getText()))
-                .GiaBan(Integer.valueOf(txtGiaBan.getText()))
+                .SoLuong(Integer.parseInt(txtSoLuong.getText()))
+                .GiaNhap(Integer.parseInt(txtGiaNhap.getText()))
+                .GiaBan(Integer.parseInt(txtGiaBan.getText()))
                 .build();
     }
-    
-    
-    
-    
+
+//    private int getIdSP(ArrayList<SanPhamResponse> list){
+//        
+//    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -339,10 +352,8 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel18.setText("Số lượng");
 
-        txtSoLuong.setEditable(false);
         txtSoLuong.setActionCommand("<Not Set>");
         txtSoLuong.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        txtSoLuong.setEnabled(false);
         txtSoLuong.setMinimumSize(new java.awt.Dimension(64, 30));
         txtSoLuong.setPreferredSize(new java.awt.Dimension(64, 30));
 
@@ -532,6 +543,11 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/32378_add_plus_icon.png"))); // NOI18N
         btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 70, 90, 50));
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -595,7 +611,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cboKichThuocActionPerformed
 
     private void btnAddCPUMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddCPUMouseClicked
-        
+
     }//GEN-LAST:event_btnAddCPUMouseClicked
 
     private void btnAddCPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCPUActionPerformed
@@ -629,13 +645,12 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddPinActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ImeiView imei = new ImeiView();
+        ImeiView imei = new ImeiView(this);
         imei.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tblQuanLySPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLySPMouseClicked
         this.detail(tblQuanLySP.getSelectedRow());
-        txtSoLuong.setEnabled(false);
     }//GEN-LAST:event_tblQuanLySPMouseClicked
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -651,6 +666,39 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         cboOCung.setSelectedItem("");
         cboRam.setSelectedItem("");
     }//GEN-LAST:event_btnClearActionPerformed
+    private int  layIDSP(){
+        return 1;
+    }
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if (txtTenSP.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên SP không dc để trống");
+            txtTenSP.requestFocus();
+            return;
+        }
+        if (txtGiaNhap.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Giá nhập không dc để trống");
+            txtGiaNhap.requestFocus();
+            return;
+        }
+        if (txtGiaBan.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Giá bán không dc để trống");
+            txtGiaBan.requestFocus();
+            return;
+        }
+        if(sanphamRepo.add(this.getFormData())){
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+            this.showDataTable(sanphamRepo.getAll());
+        }
+        
+        
+        
+        // b1 thêm  imei 
+        // tb2 thêm sp  
+        // b3 ;lấy id sp vừa  thêm vào 
+        // b4 update idsp vào imei 
+        
+        
+    }//GEN-LAST:event_btnAddActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

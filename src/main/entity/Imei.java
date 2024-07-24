@@ -19,4 +19,5 @@ public class Imei {
     private Integer IdSanPham;
     private String MaImei;
     private Integer TrangThai;
+    private Integer TinhTrang;
 }

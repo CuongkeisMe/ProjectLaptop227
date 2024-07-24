@@ -68,4 +68,31 @@ public class RamRepository {
         }
         return check > 0;
     }
+    
+    public Ram getRamByMa(String maRam){
+        String query = """
+                      SELECT [id_Ram]
+                            ,[MaRam]
+                            ,[DungLuongRam]
+                            ,[TrangThai]
+                      FROM [dbo].[Ram]
+                       WHERE [MaRam] = ?
+                      """;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setObject(1, maRam);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Ram ram = Ram.builder()
+                        .IdRam(rs.getInt(1))
+                        .MaRam(rs.getString(2))
+                        .DungLuongRam(rs.getString(3))
+                        .TrangThai(rs.getInt(4))
+                        .build();
+                return ram;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
+    }
 }

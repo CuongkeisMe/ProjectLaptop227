@@ -68,4 +68,31 @@ public class PinRepository {
         }
         return check > 0;
     }
+    
+    public Pin getPinByMa(String maPin){
+        String query = """
+                     SELECT [id_Pin]
+                           ,[MaPin]
+                           ,[DungLuongPin]
+                           ,[TrangThai]
+                     FROM [dbo].[Pin]
+                       WHERE [MaPin] = ?
+                      """;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setObject(1, maPin);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Pin pin = Pin.builder()
+                        .IdPin(rs.getInt(1))
+                        .MaPin(rs.getString(2))
+                        .DungLuongPin(rs.getString(3))
+                        .TrangThai(rs.getInt(4))
+                        .build();
+                return pin;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
+    }
 }

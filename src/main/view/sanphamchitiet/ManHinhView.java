@@ -261,7 +261,7 @@ public class ManHinhView extends javax.swing.JFrame {
             return;
         }
         for (ManHinh manhinh : manhinhRepo.getAll()) {
-            if (txtTenCPU.getText().equalsIgnoreCase(manhinh.getKichThuoc())) {
+            if (txtKichThuocMH.getText().equalsIgnoreCase(manhinh.getKichThuoc())) {
                 JOptionPane.showMessageDialog(this, "Kích thước này đã tồn tại trong bảng");
                 txtKichThuocMH.requestFocus();
                 return;

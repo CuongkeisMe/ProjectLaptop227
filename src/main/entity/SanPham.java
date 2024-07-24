@@ -29,4 +29,36 @@ public class SanPham {
     private Integer GiaNhap;
     private Integer GIaBan;
     private Integer TrangThai;
+
+    public SanPham(Integer IdRam, Integer IdCPU, Integer IdGPU, Integer IdManHinh, Integer IdOCung, Integer IdPin, String MaSanPham, String TenSanPham, String HinhAnh, Integer SoLuong, Integer GiaNhap, Integer GIaBan, Integer TrangThai) {
+        this.IdRam = IdRam;
+        this.IdCPU = IdCPU;
+        this.IdGPU = IdGPU;
+        this.IdManHinh = IdManHinh;
+        this.IdOCung = IdOCung;
+        this.IdPin = IdPin;
+        this.MaSanPham = MaSanPham;
+        this.TenSanPham = TenSanPham;
+        this.HinhAnh = HinhAnh;
+        this.SoLuong = SoLuong;
+        this.GiaNhap = GiaNhap;
+        this.GIaBan = GIaBan;
+        this.TrangThai = TrangThai;
+    }
+
+    public SanPham(Integer IdRam, Integer IdCPU, Integer IdGPU, Integer IdManHinh, Integer IdOCung, Integer IdPin, String TenSanPham, String HinhAnh, Integer SoLuong, Integer GiaNhap, Integer GIaBan, Integer TrangThai) {
+        this.IdRam = IdRam;
+        this.IdCPU = IdCPU;
+        this.IdGPU = IdGPU;
+        this.IdManHinh = IdManHinh;
+        this.IdOCung = IdOCung;
+        this.IdPin = IdPin;
+        this.TenSanPham = TenSanPham;
+        this.HinhAnh = HinhAnh;
+        this.SoLuong = SoLuong;
+        this.GiaNhap = GiaNhap;
+        this.GIaBan = GIaBan;
+        this.TrangThai = TrangThai;
+    }
+    
 }

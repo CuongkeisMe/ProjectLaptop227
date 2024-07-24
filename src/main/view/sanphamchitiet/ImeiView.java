@@ -1,12 +1,48 @@
 package main.view.sanphamchitiet;
 
-public class ImeiView extends javax.swing.JFrame {
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import main.entity.Imei;
+import main.repository.ImeiRepository;
+import main.view.chucnang.SanPhamView;
 
+public class ImeiView extends javax.swing.JFrame {
+    private DefaultTableModel dtm;
+    private ImeiRepository imeiRepo;
+    private SanPhamView SPV;
+    
+    private void showDataTable(ArrayList<Imei> list){
+        dtm.setRowCount(0);
+        list.forEach(x -> dtm.addRow(new Object[]{
+            x.getMaImei()
+        }));
+    }
+    private Imei getFormData(){
+        return Imei.builder()
+                .MaImei(txtImei.getText())
+                .build();
+    }
+    
     public ImeiView() {
         initComponents();
         this.setTitle("Imei");
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        imeiRepo = new ImeiRepository();
+        dtm = (DefaultTableModel)tblQuanlyImei.getModel();
+        this.showDataTable(imeiRepo.getAll());
+    }
+    
+    public ImeiView(SanPhamView sanphamview) {
+        initComponents();
+        this.setTitle("Imei");
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        imeiRepo = new ImeiRepository();
+        dtm = (DefaultTableModel)tblQuanlyImei.getModel();
+        this.showDataTable(imeiRepo.getAll());
+        SPV = sanphamview;
     }
 
     @SuppressWarnings("unchecked")
@@ -46,8 +82,18 @@ public class ImeiView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblQuanlyImei);
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/32378_add_plus_icon.png"))); // NOI18N
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icon/5049209_bin_delete_remove_trash_icon.png"))); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,17 +120,38 @@ public class ImeiView extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtImei, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtImei, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if(txtImei.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Mã Imei không được để trống");
+            txtImei.requestFocus();
+            return;
+        }
+        if(imeiRepo.add(this.getFormData())){
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+            SPV.showComboboxImei();
+            this.showDataTable(imeiRepo.getAll());
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int index = tblQuanlyImei.getSelectedRow();
+            if(imeiRepo.delete(index)){
+            JOptionPane.showMessageDialog(this, "Xóa thành công");
+            SPV.showComboboxImei();
+            this.showDataTable(imeiRepo.getAll());
+        }    
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
