@@ -19,7 +19,7 @@ public class KhachHangView extends javax.swing.JInternalFrame {
         AtomicInteger index = new AtomicInteger(0);
         list.forEach(s -> df.addRow(new Object[]{
             //            index.getAndIncrement(),
-            s.getId(), s.getMa(), s.getTen(), s.getNgaySinh(), s.isGioiTinh(),
+            s.getId(), s.getMa(), s.getTen(), s.getNgaySinh(), s.isGioiTinh()?"Nam":"Nữ",
             s.getSdt(), s.getEmail(), s.getDiaChi(), s.getTrangThai()
         }));
     }
