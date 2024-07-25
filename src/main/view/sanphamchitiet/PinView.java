@@ -197,6 +197,22 @@ public class PinView extends javax.swing.JFrame {
     }//GEN-LAST:event_tblQuanLyPinMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int index = tblQuanLyPin.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dung lượng pin muốn sửa !");
+        } else {
+            int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn sửa dung lượng pin này chưa ?");
+            if (chon == 0) {
+                if (pinRepo.update(this.getFormData(), pinRepo.getAll().get(index).getIdPin())) {
+                    JOptionPane.showMessageDialog(this, "Sửa thành công");
+                    SPV.showComboboxPin();
+                    this.showDataTable(pinRepo.getAll());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (txtDungLuongPin.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Dung lượng pin không được để trống");
             txtDungLuongPin.requestFocus();
@@ -215,22 +231,6 @@ public class PinView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Thêm thành công");
                 SPV.showComboboxPin();
                 this.showDataTable(pinRepo.getAll());
-            }
-        }
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        int index = tblQuanLyPin.getSelectedRow();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn dung lượng pin muốn sửa !");
-        } else {
-            int chon = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn sửa dung lượng pin này chưa ?");
-            if (chon == 0) {
-                if (pinRepo.update(this.getFormData(), pinRepo.getAll().get(index).getIdPin())) {
-                    JOptionPane.showMessageDialog(this, "Sửa thành công");
-                    SPV.showComboboxPin();
-                    this.showDataTable(pinRepo.getAll());
-                }
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed

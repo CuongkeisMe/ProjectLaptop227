@@ -16,9 +16,7 @@ public class ImeiRepository {
                            ,[id_SanPham]
                            ,[Ma_Imei]
                            ,[TrangThai]
-                           ,[TinhTrang]
-                       FROM [dbo].[Imei] 
-                     order by [id_Imei] desc
+                       FROM [dbo].[Imei]                 
                      """;
         try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
@@ -28,7 +26,6 @@ public class ImeiRepository {
                         .IdSanPham(rs.getInt(2))
                         .MaImei(rs.getString(3))
                         .TrangThai(rs.getInt(4))
-                        .TinhTrang(rs.getInt(5))
                         .build();
                 listImei.add(imei);
             }
@@ -38,18 +35,19 @@ public class ImeiRepository {
         return listImei;
     }
     
-    public Boolean add(Imei imei){
+    public Boolean add(Imei imei, Integer IdSP){
         String sql = """
                      INSERT INTO [dbo].[Imei]
-                                ([Ma_Imei]
-                                ,[TrangThai]
-                                ,[TinhTrang])
+                                ([id_SanPham]
+                                ,[Ma_Imei]
+                                ,[TrangThai])
                           VALUES
-                                (?,0,0)
+                                (?,?,1)
                      """;
         int check = 0;
         try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setObject(1, imei.getMaImei());
+            ps.setObject(1, IdSP);
+            ps.setObject(2, imei.getMaImei());
             check  = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package main.form;
 
+import java.awt.Color;
 import main.view.chucnang.BanHang;
 import main.view.chucnang.HoaDon;
 import main.view.chucnang.KhachHangView;
@@ -132,6 +133,9 @@ public class Menu extends javax.swing.JFrame {
         sanphamPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 sanphamPanelMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                sanphamPanelMousePressed(evt);
             }
         });
 
@@ -533,6 +537,10 @@ public class Menu extends javax.swing.JFrame {
         dn.setVisible(true);
         dispose();
     }//GEN-LAST:event_DangXuatPaneMouseClicked
+
+    private void sanphamPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sanphamPanelMousePressed
+
+    }//GEN-LAST:event_sanphamPanelMousePressed
 
     /**
      * @param args the command line arguments
