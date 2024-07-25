@@ -3,22 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/E:/Laptop/src/main/view/chucnang/SanPhamView.java</file>
-            <file>file:/E:/Laptop/src/main/repository/SanPhamRepository.java</file>
-            <file>file:/E:/Laptop/src/main/entity/SanPham.java</file>
-            <file>file:/E:/Laptop/src/main/response/SanPhamResponse.java</file>
-            <file>file:/E:/Laptop/src/main/view/sanphamchitiet/ImeiView.java</file>
-            <file>file:/E:/Laptop/src/main/repository/ImeiRepository.java</file>
-=======
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/repository/NhanVienRepository.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/view/chucnang/SanPhamView.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/view/chucnang/KhachHangView.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/form/Menu.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/repository/KhachHangRepository.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/view/chucnang/NhanVienView.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/form/DangNhap.java</file>
->>>>>>> 938ec76a641128afc9fc223f798216fa4e31661b
+            <file>file:/D:/DuAn1/Thư%20mục%20mới/ProjectLaptop227/src/main/config/DBConnect.java</file>
+            <file>file:/D:/DuAn1/Thư%20mục%20mới/ProjectLaptop227/src/main/form/Menu.java</file>
         </group>
     </open-files>
 </project-private>

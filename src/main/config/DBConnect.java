@@ -8,9 +8,9 @@ public class DBConnect {
 
     public static final String HOSTNAME = "localhost";
     public static final String PORT = "1433";
-    public static final String DBNAME = "Test";
+    public static final String DBNAME = "QLBH_PRO1041";
     public static final String USERNAME = "sa";
-    public static final String PASSWORD = "sa123";
+    public static final String PASSWORD = "123";
 
     /**
      * Get connection to MSSQL Server
