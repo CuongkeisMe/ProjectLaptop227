@@ -243,7 +243,7 @@ public class KhachHangView extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Tên khách hàng");
 
-        jLabel3.setText("SDT");
+        jLabel3.setText("SDT ");
 
         buttonGroup1.add(rdNam);
         rdNam.setSelected(true);
@@ -308,7 +308,7 @@ public class KhachHangView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
                         .addGap(40, 40, 40)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(rdNam)
                                 .addGap(60, 60, 60)
@@ -321,8 +321,8 @@ public class KhachHangView extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel6))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(136, 136, 136)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSdt, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)

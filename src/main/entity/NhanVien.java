@@ -18,15 +18,12 @@ import lombok.ToString;
 public class NhanVien {
     private Integer id; 
     private String ma;
-    private String userName; 
-    private String pass; 
     private String ten;
     private Date ngaySinh; 
     private boolean gioiTinh;  
     private String sdt; 
     private String email; 
     private String diaChi;
-    private Boolean vaiTro; 
     private Boolean trangThai; 
     
 }
