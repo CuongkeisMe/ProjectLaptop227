@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import main.config.DBConnect;
 import main.entity.SanPham;
+import main.request.FindSanPham;
 import main.request.SanPhamRequest;
 import main.response.SanPhamResponse;
 
 public class SanPhamRepository {
-    public ArrayList<SanPhamResponse> getAll(){
+    public ArrayList<SanPhamResponse> getAll(FindSanPham findSanPham){
         ArrayList<SanPhamResponse> listSP = new ArrayList<>();
         String sql = """
                      SELECT dbo.SanPham.id_SanPham, dbo.SanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.SanPham.HinhAnh, dbo.CPU.TenCPU, dbo.GPU.TenGPU, dbo.OCung.LoaiOCung, dbo.Ram.DungLuongRam, dbo.ManHinh.KichThuoc, dbo.Pin.DungLuongPin, 
@@ -22,9 +23,28 @@ public class SanPhamRepository {
                                   dbo.OCung ON dbo.SanPham.id_OCung = dbo.OCung.id_OCung INNER JOIN
                                   dbo.Pin ON dbo.SanPham.id_Pin = dbo.Pin.id_Pin INNER JOIN
                                   dbo.Ram ON dbo.SanPham.id_Ram = dbo.Ram.id_Ram
+                     WHERE dbo.SanPham.TrangThai = 1
+                     AND (
+                            dbo.SanPham.MaSanPham LIKE ?
+                            OR dbo.SanPham.TenSanPham LIKE ?
+                            OR dbo.CPU.TenCPU LIKE ?
+                            OR dbo.GPU.TenGPU LIKE ?
+                            OR dbo.OCung.LoaiOCung LIKE ?
+                            OR dbo.Ram.DungLuongRam LIKE ?
+                            OR dbo.ManHinh.KichThuoc LIKE ?
+                            OR dbo.Pin.DungLuongPin LIKE ?
+                     )
                      order by [id_SanPham] desc
                      """;
         try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, "%" + findSanPham.getKeySearch() + "%");
+            ps.setObject(2, "%" + findSanPham.getKeySearch() + "%");
+            ps.setObject(3, "%" + findSanPham.getKeySearch() + "%");
+            ps.setObject(4, "%" + findSanPham.getKeySearch() + "%");
+            ps.setObject(5, "%" + findSanPham.getKeySearch() + "%");
+            ps.setObject(6, "%" + findSanPham.getKeySearch() + "%");
+            ps.setObject(7, "%" + findSanPham.getKeySearch() + "%");
+            ps.setObject(8, "%" + findSanPham.getKeySearch() + "%");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 SanPhamResponse spResponse = SanPhamResponse.builder()
@@ -49,6 +69,46 @@ public class SanPhamRepository {
         }
         return listSP;
     }
+    
+//    public ArrayList<SanPhamResponse> getAllDelete(){
+//        ArrayList<SanPhamResponse> listSP = new ArrayList<>();
+//        String sql = """
+//                     SELECT dbo.SanPham.id_SanPham, dbo.SanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.SanPham.HinhAnh, dbo.CPU.TenCPU, dbo.GPU.TenGPU, dbo.OCung.LoaiOCung, dbo.Ram.DungLuongRam, dbo.ManHinh.KichThuoc, dbo.Pin.DungLuongPin, 
+//                                  dbo.SanPham.SoLuong, dbo.SanPham.GiaNhap, dbo.SanPham.GiaBan, dbo.SanPham.TrangThai
+//                     FROM   dbo.CPU INNER JOIN
+//                                  dbo.SanPham ON dbo.CPU.id_CPU = dbo.SanPham.id_CPU INNER JOIN
+//                                  dbo.GPU ON dbo.SanPham.id_GPU = dbo.GPU.id_GPU INNER JOIN                                  
+//                                  dbo.ManHinh ON dbo.SanPham.id_ManHinh = dbo.ManHinh.id_ManHinh INNER JOIN
+//                                  dbo.OCung ON dbo.SanPham.id_OCung = dbo.OCung.id_OCung INNER JOIN
+//                                  dbo.Pin ON dbo.SanPham.id_Pin = dbo.Pin.id_Pin INNER JOIN
+//                                  dbo.Ram ON dbo.SanPham.id_Ram = dbo.Ram.id_Ram
+//                     WHERE dbo.SanPham.TrangThai = 0
+//                     """;
+//        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+//            ResultSet rs = ps.executeQuery();
+//            while(rs.next()){
+//                SanPhamResponse spResponse = SanPhamResponse.builder()
+//                        .IdSanPham(rs.getInt(1))
+//                        .MaSanPham(rs.getString(2))
+//                        .TenSanPham(rs.getString(3))
+//                        .HinhAnh(rs.getString(4))
+//                        .TenCPU(rs.getString(5))
+//                        .TenGPU(rs.getString(6))
+//                        .LoaiOCung(rs.getString(7))
+//                        .DungLuongRam(rs.getString(8))
+//                        .KichThuoc(rs.getString(9))
+//                        .DungLuongPin(rs.getString(10))
+//                        .SoLuong(rs.getInt(11))
+//                        .GiaNhap(rs.getInt(12))
+//                        .GiaBan(rs.getInt(13))
+//                        .build();
+//                listSP.add(spResponse);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace(System.out);
+//        }
+//        return listSP;
+//    }
     
     public ArrayList<SanPhamResponse> getImeiByMaSP(String maSP){
         ArrayList<SanPhamResponse> listImeiChiTiet = new ArrayList<>();
@@ -103,6 +163,56 @@ public class SanPhamRepository {
             ps.setObject(7, sp.getTenSanPham());
             ps.setObject(8, sp.getGiaNhap());
             ps.setObject(9, sp.getGiaBan());
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+    
+    public Boolean update(SanPhamRequest sanphamRequest, Integer IdSP){
+        String sql = """
+                     UPDATE [dbo].[SanPham]
+                        SET [id_Ram] = ?
+                           ,[id_CPU] = ?
+                           ,[id_GPU] = ?
+                           ,[id_ManHinh] = ?
+                           ,[id_OCung] = ?
+                           ,[id_Pin] = ?
+                           ,[TenSanPham] = ?
+                           ,[HinhAnh] = 2
+                           ,[GiaNhap] = ?
+                           ,[GiaBan] = ?
+                      WHERE id_SanPham = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, sanphamRequest.getIdRam());
+            ps.setObject(2, sanphamRequest.getIdCPU());
+            ps.setObject(3, sanphamRequest.getIdGPU());
+            ps.setObject(4, sanphamRequest.getIdManHinh());
+            ps.setObject(5, sanphamRequest.getIdOCung());
+            ps.setObject(6, sanphamRequest.getIdPin());
+            ps.setObject(7, sanphamRequest.getTenSanPham());
+            ps.setObject(8, sanphamRequest.getGiaNhap());
+            ps.setObject(9, sanphamRequest.getGiaBan());
+            ps.setObject(10, IdSP);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+    
+    public Boolean delete(Integer IdSP){
+        String sql = """
+                     UPDATE [dbo].[SanPham]
+                        SET [TrangThai] = 0
+                      WHERE id_SanPham = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, IdSP);
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
