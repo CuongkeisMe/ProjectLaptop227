@@ -54,13 +54,9 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         jLabel6 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbNhanVien = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         txtTim = new javax.swing.JTextField();
         btTim = new javax.swing.JButton();
-        btXoa = new javax.swing.JButton();
-        btReset = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -73,31 +69,15 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         txtEmail = new javax.swing.JTextField();
         rdNam = new javax.swing.JRadioButton();
         rdNu = new javax.swing.JRadioButton();
-        btThem = new javax.swing.JButton();
-        btSua = new javax.swing.JButton();
         dateNgaySinh = new com.toedter.calendar.JDateChooser();
         cboTim = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbNhanVien = new javax.swing.JTable();
+        btThem = new javax.swing.JButton();
+        btSua = new javax.swing.JButton();
+        btXoa = new javax.swing.JButton();
+        btReset = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-
-        tbNhanVien.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Mã NV", "Tên NV", "Ngày sinh", "Giới tính", "Địa chỉ ", "SDT", "Email", "Trạng thái"
-            }
-        ));
-        tbNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbNhanVienMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tbNhanVien);
 
         jPanel1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -121,22 +101,6 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         btTim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btTimActionPerformed(evt);
-            }
-        });
-
-        btXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btXoa.setText("Xóa");
-        btXoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btXoaActionPerformed(evt);
-            }
-        });
-
-        btReset.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btReset.setText("Reset");
-        btReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btResetActionPerformed(evt);
             }
         });
 
@@ -185,6 +149,11 @@ public class NhanVienView extends javax.swing.JInternalFrame {
             }
         });
 
+        txtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmailFocusLost(evt);
+            }
+        });
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -208,6 +177,33 @@ public class NhanVienView extends javax.swing.JInternalFrame {
             }
         });
 
+        cboTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTimActionPerformed(evt);
+            }
+        });
+
+        tbNhanVien.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Mã NV", "Tên NV", "Ngày sinh", "Giới tính", "Địa chỉ ", "SDT", "Email", "Trạng thái"
+            }
+        ));
+        tbNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbNhanVienMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbNhanVien);
+
         btThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btThem.setText("Thêm ");
         btThem.addActionListener(new java.awt.event.ActionListener() {
@@ -224,10 +220,19 @@ public class NhanVienView extends javax.swing.JInternalFrame {
             }
         });
 
-        cboTim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboTim.addActionListener(new java.awt.event.ActionListener() {
+        btXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btXoa.setText("Xóa");
+        btXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboTimActionPerformed(evt);
+                btXoaActionPerformed(evt);
+            }
+        });
+
+        btReset.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btReset.setText("Reset");
+        btReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btResetActionPerformed(evt);
             }
         });
 
@@ -236,7 +241,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(39, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -277,7 +282,10 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                                     .addComponent(txtSdt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(175, 175, 175)
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(214, 214, 214)
                         .addComponent(btThem)
                         .addGap(121, 121, 121)
                         .addComponent(btSua)
@@ -323,13 +331,15 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))))
-                .addGap(59, 59, 59)
+                .addGap(62, 62, 62)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btThem)
                     .addComponent(btSua)
                     .addComponent(btXoa)
                     .addComponent(btReset))
-                .addGap(0, 28, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -345,13 +355,8 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                         .addGap(439, 439, 439)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1086, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(73, 73, 73)
                         .addComponent(jLabel6)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -368,9 +373,7 @@ public class NhanVienView extends javax.swing.JInternalFrame {
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(143, 143, 143))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         pack();
@@ -451,8 +454,78 @@ public class NhanVienView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rdNuActionPerformed
 
     private void btThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btThemActionPerformed
-        rp.add(getFormData());
-        showDataTB(rp.getAll());
+        if(this.isVisible()){
+            String ten = txtTen.getText();
+            String regex = "^[a-zA-Z\\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]+$";
+            // chứa chữ cái và khoảng trắng 
+            if(ten.length()>0){
+                if(!ten.matches(regex)){// tên sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại tên,Vd: Đỗ Thị Thúy Ly");
+                txtTen.requestFocus();
+                return;
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "Tên không được để trống");
+                txtTen.requestFocus();
+                return;
+            }
+        }
+        
+        if(this.isVisible()){
+            String sdt = txtSdt.getText();
+            String regex = "^(0|\\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9])[0-9]{7}$";//chứa số điện thoại 10 số hay 11 số, đầu 09 or +84
+            if(sdt.length()>0){
+                if(!sdt.matches(regex)){// địa chỉ sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại số điện thoại,VD: 0976766682 hoặc +84961659480");
+                txtSdt.requestFocus();
+                return;
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "Số điện thoại không được để trống");
+                txtSdt.requestFocus();
+                return;
+            }
+        }
+        
+        if(this.isVisible()){
+            String diaChi = txtDiaChi.getText();
+            String regex = "^[a-zA-Z0-9\\s,.-/]+$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
+            if(diaChi.length()>0){
+                if(!diaChi.matches(regex)){// địa chỉ sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại địa chỉ,và k được chứa kí tự đặc biệt: @#$%...");
+                txtDiaChi.requestFocus();
+                return;
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
+                txtDiaChi.requestFocus();
+                return;
+            }
+        }
+        
+        if(this.isVisible()){
+            String email = txtEmail.getText();
+            String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
+            if(email.length()>0){
+                if(!email.matches(regex)){// địa chỉ sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại địa chỉ,và k được chứa kí tự đặc biệt: @#$%...");
+                txtEmail.requestFocus();
+                return;
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
+                txtEmail.requestFocus();
+                return;
+            }
+        }
+        
+        int chon = JOptionPane.showConfirmDialog(this, "Lâm Hy đã chắc chắn muốn thêm chưa ?");
+        if(chon == 0){
+            if(rp.add(getFormData())){
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+                showDataTB(rp.getAll());
+            }
+        }      
     }//GEN-LAST:event_btThemActionPerformed
 
     private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
@@ -494,53 +567,20 @@ public class NhanVienView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtTimFocusGained
 
     private void txtTenFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTenFocusLost
-        if(this.isVisible()){
-            String ten = txtTen.getText();
-            String regex = "^[a-zA-Z\\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]+$";
-            // chứa chữ cái và khoảng trắng 
-            if(ten.length()>0){
-                if(!ten.matches(regex)){// tên sai định dạng
-                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại tên,Vd: Đỗ Thị Thúy Ly");
-                txtTen.requestFocus();
-                }
-            }else{
-                JOptionPane.showMessageDialog(this, "Tên không được để trống");
-                txtTen.requestFocus();
-            }
-        }
+        
     }//GEN-LAST:event_txtTenFocusLost
 
     private void txtDiaChiFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiaChiFocusLost
-        if(this.isVisible()){
-            String diaChi = txtDiaChi.getText();
-            String regex = "^[a-zA-Z0-9\\s,.-/]+$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
-            if(diaChi.length()>0){
-                if(!diaChi.matches(regex)){// địa chỉ sai định dạng
-                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại địa chỉ,và k được chứa kí tự đặc biệt: @#$%...");
-                txtDiaChi.requestFocus();
-                }
-            }else{
-                JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
-                txtDiaChi.requestFocus();
-            }
-        }
+        
     }//GEN-LAST:event_txtDiaChiFocusLost
 
     private void txtSdtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSdtFocusLost
-        if(this.isVisible()){
-            String sdt = txtSdt.getText();
-            String regex = "^[a-zA-Z\\s]+$";// chứa chữ cái và khoảng trắng 
-            if(sdt.length()>0){
-                if(!sdt.matches(regex)){// tên sai định dạng
-                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại tên,Vd: Đỗ Thị Thúy Ly");
-                txtTen.requestFocus();
-                }
-            }else{
-                JOptionPane.showMessageDialog(this, "Tên không được để trống");
-                txtTen.requestFocus();
-            }
-        }
+        
     }//GEN-LAST:event_txtSdtFocusLost
+
+    private void txtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmailFocusLost
+        
+    }//GEN-LAST:event_txtEmailFocusLost
 
     private void detail(int index) {
         NhanVien nv = rp.getAll().get(index);
