@@ -15,9 +15,10 @@ import lombok.ToString;
 @ToString
 
 public class SanPhamResponse {
+    private Integer IdSanPham;
     private String MaSanPham;
-    private String MaImei;
     private String TenSanPham;
+    private String MaImei;
     private String HinhAnh;
     private String TenCPU;
     private String TenGPU;
@@ -29,3 +30,4 @@ public class SanPhamResponse {
     private Integer GiaNhap;
     private Integer GiaBan;
 }
+
