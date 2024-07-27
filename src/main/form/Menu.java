@@ -1,14 +1,20 @@
 package main.form;
 
+import javax.swing.JOptionPane;
+import main.config.DBConnect;
 import main.view.chucnang.BanHang;
 import main.view.chucnang.HoaDon;
 import main.view.chucnang.KhachHangView;
 import main.view.chucnang.KhuyenMai;
 import main.view.chucnang.NhanVienView;
 import main.view.chucnang.SanPhamView;
-import main.view.chucnang.TaiKhoan;
+import main.view.chucnang.TaiKhoan;  
 import main.view.chucnang.ThongKe;
 import main.view.chucnang.TrangChu;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import main.config.DBConnect;
 
 public class Menu extends javax.swing.JFrame {
 
@@ -21,13 +27,12 @@ public class Menu extends javax.swing.JFrame {
     TaiKhoan taikhoanForm = new TaiKhoan();
     ThongKe thongkeForm = new ThongKe();
     SanPhamView sanphamForm = new SanPhamView();
-    
+
     public Menu() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -524,6 +529,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_taikhoanPanelMouseClicked
 
     private void nhanvienPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nhanvienPanelMouseClicked
+
         mainPanel.removeAll();
         mainPanel.add(nhanvienForm).setVisible(true);
     }//GEN-LAST:event_nhanvienPanelMouseClicked
@@ -606,4 +612,5 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel thongkePanel;
     private javax.swing.JPanel trangchuPanel;
     // End of variables declaration//GEN-END:variables
+
 }

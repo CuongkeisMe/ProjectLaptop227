@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/repository/NhanVienRepository.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/view/chucnang/SanPhamView.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/view/chucnang/KhachHangView.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/form/Menu.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/repository/KhachHangRepository.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/view/chucnang/NhanVienView.java</file>
-            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/form/DangNhap.java</file>
+            <file>file:/D:/DuAnLapTopp247/src/main/view/chucnang/TaiKhoan.java</file>
+            <file>file:/D:/DuAnLapTopp247/src/main/form/Menu.java</file>
+            <file>file:/D:/DuAnLapTopp247/src/main/repository/TaiKhoanRepository.java</file>
+            <file>file:/D:/DuAnLapTopp247/src/main/form/DangNhap.java</file>
         </group>
     </open-files>
 </project-private>
