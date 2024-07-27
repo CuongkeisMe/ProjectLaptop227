@@ -6,14 +6,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import main.config.DBConnect;
 
-
 public class DangNhap extends javax.swing.JFrame {
 
     public DangNhap() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -24,10 +23,10 @@ public class DangNhap extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtTaiKhoan = new javax.swing.JTextField();
         rdoCheck = new javax.swing.JRadioButton();
-        btnDangKy = new javax.swing.JButton();
+        btnDangNhap = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtMatKhau = new javax.swing.JPasswordField();
-        btnDangKy1 = new javax.swing.JButton();
+        btnLamMoi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,12 +66,12 @@ public class DangNhap extends javax.swing.JFrame {
             }
         });
 
-        btnDangKy.setBackground(new java.awt.Color(204, 255, 255));
-        btnDangKy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDangKy.setText("Đăng Nhập");
-        btnDangKy.addActionListener(new java.awt.event.ActionListener() {
+        btnDangNhap.setBackground(new java.awt.Color(204, 255, 255));
+        btnDangNhap.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDangNhap.setText("Đăng Nhập");
+        btnDangNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDangKyActionPerformed(evt);
+                btnDangNhapActionPerformed(evt);
             }
         });
 
@@ -80,17 +79,12 @@ public class DangNhap extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Mật Khẩu");
 
-        btnDangKy1.setBackground(new java.awt.Color(204, 255, 255));
-        btnDangKy1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnDangKy1.setText("LÀM MỚI");
-        btnDangKy1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnDangKy1MouseClicked(evt);
-            }
-        });
-        btnDangKy1.addActionListener(new java.awt.event.ActionListener() {
+        btnLamMoi.setBackground(new java.awt.Color(204, 255, 255));
+        btnLamMoi.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLamMoi.setText("LÀM MỚI");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDangKy1ActionPerformed(evt);
+                btnLamMoiActionPerformed(evt);
             }
         });
 
@@ -104,8 +98,8 @@ public class DangNhap extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel3)
-                        .addComponent(btnDangKy, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
-                        .addComponent(btnDangKy1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDangNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+                        .addComponent(btnLamMoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtTaiKhoan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
@@ -134,9 +128,9 @@ public class DangNhap extends javax.swing.JFrame {
                     .addComponent(rdoCheck, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                     .addComponent(txtMatKhau))
                 .addGap(47, 47, 47)
-                .addComponent(btnDangKy, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
-                .addComponent(btnDangKy1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -166,44 +160,44 @@ public class DangNhap extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_rdoCheckMouseClicked
 
-    private void btnDangKy1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKy1ActionPerformed
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         txtMatKhau.setText("");
         txtTaiKhoan.setText("");
-    }//GEN-LAST:event_btnDangKy1ActionPerformed
+    }//GEN-LAST:event_btnLamMoiActionPerformed
 
-    private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
+    private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
         String ten = txtTaiKhoan.getText();
-        String makhau = String.valueOf(txtMatKhau.getPassword());
-        if (ten.equals("") || makhau.equals("")) {
+        String matkhau = String.valueOf(txtMatKhau.getPassword());
+        if (ten.equals("") || matkhau.equals("")) {
             JOptionPane.showMessageDialog(this, "Mật Khẩu Hoặc Tài Khoản Không Được Trống");
         } else {
             try {
                 Connection con = DBConnect.getConnection();
                 PreparedStatement pr;
-                String sql = "select * from NhanVien where UserName =? AND Pass=?";
+                String sql = """
+                             select * from TaiKhoan tk join VaiTro vt
+                             on tk.id_VaiTro= vt.id_VaiTro
+                             where tk.UserName=? and tk.Pass=? 
+                             """;
                 pr = con.prepareStatement(sql);
                 pr.setString(1, ten);
-                pr.setString(2, makhau);
+                pr.setString(2, matkhau);
                 ResultSet rs = pr.executeQuery();
+
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(this, "Đăng Nhập Thành Công");
-                    Menu m = new Menu();
-                    m.setVisible(true);
+                    Menu mn = new Menu();
+                    mn.setVisible(true);
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Tài Khoản Mật Khẩu không Hợp Lệ");
                 }
-
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Lỗi kết nối cơ sở dữ liệu");
                 e.printStackTrace();
             }
         }
-    }//GEN-LAST:event_btnDangKyActionPerformed
-
-    private void btnDangKy1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDangKy1MouseClicked
-
-    }//GEN-LAST:event_btnDangKy1MouseClicked
+    }//GEN-LAST:event_btnDangNhapActionPerformed
 
     public static void main(String args[]) {
 
@@ -215,8 +209,8 @@ public class DangNhap extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDangKy;
-    private javax.swing.JButton btnDangKy1;
+    private javax.swing.JButton btnDangNhap;
+    private javax.swing.JButton btnLamMoi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -227,4 +221,6 @@ public class DangNhap extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtTaiKhoan;
     // End of variables declaration//GEN-END:variables
+
+  
 }
