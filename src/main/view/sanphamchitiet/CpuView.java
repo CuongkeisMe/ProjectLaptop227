@@ -225,6 +225,7 @@ public class CpuView extends javax.swing.JFrame {
             if (chon == 0) {
                 if (cpuRepo.update(this.getFormData(), cpuRepo.getAll().get(index).getIdCPU())) {
                     JOptionPane.showMessageDialog(this, "Sửa thành công");
+                    SPV.showComboboxCPU();
                     this.showDataTable(cpuRepo.getAll());
                 }
             }

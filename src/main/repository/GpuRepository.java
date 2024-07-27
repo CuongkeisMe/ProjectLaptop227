@@ -68,4 +68,31 @@ public class GpuRepository {
         }
         return check > 0;
     }
+    
+    public Gpu getGpuByMa(String maGPU){
+        String query = """
+                      SELECT [id_GPU]
+                            ,[MaGPU]
+                            ,[TenGPU]
+                            ,[TrangThai]
+                        FROM [dbo].[GPU]
+                       WHERE [MaGPU] = ?
+                      """;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setObject(1, maGPU);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Gpu gpu = Gpu.builder()
+                        .IdGPU(rs.getInt(1))
+                        .MaGPU(rs.getString(2))
+                        .TenGPU(rs.getString(3))
+                        .TrangThai(rs.getInt(4))
+                        .build();
+                return gpu;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
+    }
 }

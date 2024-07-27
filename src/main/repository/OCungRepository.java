@@ -68,4 +68,31 @@ public class OCungRepository {
         }
         return check > 0;
     }
+    
+    public OCung getOCungByMa(String maOCung){
+        String query = """
+                      SELECT [id_OCung]
+                             [MaOCung]
+                            ,[LoaiOCung]
+                            ,[TrangThai]
+                      FROM [dbo].[OCung]
+                       WHERE [MaOCung] = ?
+                      """;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setObject(1, maOCung);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                OCung oc = OCung.builder()
+                        .IdOCung(rs.getInt(1))
+                        .MaOCung(rs.getString(2))
+                        .LoaiOCung(rs.getString(3))
+                        .TrangThai(rs.getInt(4))
+                        .build();
+                return oc;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
+    }
 }

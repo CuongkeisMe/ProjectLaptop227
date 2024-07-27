@@ -23,7 +23,7 @@ public class OCungView extends javax.swing.JFrame {
     
     private void detail(int index){
         OCung oc = ocungRepo.getAll().get(index);
-        txtLoaiOCung.setText(oc.getMaOCung());
+        txtLoaiOCung.setText(oc.getLoaiOCung());
     }
     
     private OCung getFormData(){
