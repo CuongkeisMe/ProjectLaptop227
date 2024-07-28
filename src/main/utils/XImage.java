@@ -1,4 +1,4 @@
-package main.view.saveImg;
+package main.utils;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 
 public class XImage {
     public static boolean save(File src){
-        File dst = new File("src\\main\\view\\imgProduct", src.getName());
+        File dst = new File("src\\main\\images", src.getName());
         if(!dst.getParentFile().exists()){
             dst.getParentFile().mkdirs(); // tao thu muc
         }
@@ -24,7 +24,7 @@ public class XImage {
     }
     
     public static ImageIcon read(String fileName){
-        File path = new File("src\\main\\view\\imgProduct", fileName);
+        File path = new File("src\\main\\images", fileName);
         return new ImageIcon(path.getAbsolutePath());
     }
 }

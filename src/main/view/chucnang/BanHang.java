@@ -5,37 +5,30 @@ import java.util.List;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import main.repository.BanHangSPRepositories;
+import main.repository.SanPhamRepository;
+import main.response.SanPhamResponse;
+import main.view.sanphamchitiet.ImeiChiTiet;
 
 public class BanHang extends javax.swing.JInternalFrame {
 
     private DefaultTableModel dtmSP;
-    private BanHangSPRepositories bhsp;
+    private BanHangSPRepositories banhangRepository;
 
     public BanHang() {
         initComponents();
         this.cauhinhForm();
         dtmSP = (DefaultTableModel) tblSP.getModel();
-        bhsp = new BanHangSPRepositories();
-        this.showDataTableSP(bhsp.getAll());
+        banhangRepository = new BanHangSPRepositories();
+        this.showDataTableSP(banhangRepository.getAll());
     }
 
-    private void showDataTableSP(ArrayList<main.entity.BanHang> list) {
+    private void showDataTableSP(ArrayList<SanPhamResponse> list) {
         dtmSP.setRowCount(0);
-        for (int i = 0; i < list.size(); i++) {
-            main.entity.BanHang bh = list.get(i);
-            dtmSP.addRow(new Object[]{
-                bh.getMaSP(),
-                bh.getTenSP(),
-                bh.getTenCPU(),
-                bh.getTenGPU(),
-                bh.getTenRam(),
-                bh.getTenMH(),
-                bh.getTenOCung(),
-                bh.getPin(),
-                bh.getGiaSP(),
-                bh.getSoLuongSP()
-            });
-        }
+        list.forEach(x -> dtmSP.addRow(new Object[]{
+            x.getMaSanPham(), x.getTenSanPham(), x.getTenCPU(), x.getTenGPU(),
+            x.getLoaiOCung(), x.getDungLuongRam(), x.getKichThuoc(), x.getDungLuongPin(),
+            x.getGiaBan(), x.getSoLuong()
+        }));
     }
 
     public void cauhinhForm() {
@@ -64,7 +57,7 @@ public class BanHang extends javax.swing.JInternalFrame {
         jButton8 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblGioHang = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -103,9 +96,15 @@ public class BanHang extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã", "Tên", "CPU", "GPU", "Ram", "Màn Hình", "Ổ cứng", "Pin", "Giá", "Số lượng"
+                "Mã", "Tên", "CPU", "GPU", "Ổ cứng", "Ram", "Màn hình", "Pin", "Giá", "Số lượng"
             }
         ));
+        tblSP.getTableHeader().setReorderingAllowed(false);
+        tblSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblSPMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSP);
 
         jLabel19.setText("Tìm kiếm");
@@ -194,7 +193,7 @@ public class BanHang extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Giỏ hàng"));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -202,10 +201,10 @@ public class BanHang extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã SP", "Tên SP", "Đơn giá", "Giảm giá", "Thành tiền"
+                "STT", "Mã SP", "Tên SP", "Đơn giá", "Số lượng", "Thành tiền"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tblGioHang);
 
         jButton3.setText("Xóa SP");
 
@@ -437,6 +436,15 @@ public class BanHang extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField10ActionPerformed
 
+    private void tblSPMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSPMousePressed
+        int index = tblSP.getSelectedRow();
+        String maSP = (String) tblSP.getValueAt(index, 0);
+        if(evt.getClickCount() == 2){
+            ImeiChiTiet imei = new ImeiChiTiet(maSP);
+            imei.setVisible(true);
+        }
+    }//GEN-LAST:event_tblSPMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -468,7 +476,6 @@ public class BanHang extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -482,6 +489,7 @@ public class BanHang extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTable tblGioHang;
     private javax.swing.JTable tblSP;
     // End of variables declaration//GEN-END:variables
 }

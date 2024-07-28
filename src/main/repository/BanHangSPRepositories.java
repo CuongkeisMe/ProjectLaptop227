@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.repository;
 
 import java.util.ArrayList;
@@ -10,57 +6,79 @@ import main.config.DBConnect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import main.response.SanPhamResponse;
 
 public class BanHangSPRepositories {
-    public ArrayList<BanHang> getAll(){
-        ArrayList<BanHang> list = new ArrayList<>();
-        String sql ="""
-                    SELECT 
-                        SanPham.MaSanPham AS 'MaSP',
-                        SanPham.TenSanPham AS 'TenSP',
-                        CPU.TenCPU AS 'CPU',
-                        GPU.TenGPU AS 'GPU',
-                        Ram.DungLuongRam AS 'RAM',
-                        ManHinh.KichThuoc AS 'ManHinh',
-                        OCung.LoaiOCung AS 'OCung',
-                        Pin.DungLuongPin AS 'Pin',
-                        SanPham.GiaBan AS 'Gia',
-                        SanPham.SoLuong AS 'SoLuongSP'
-                    FROM 
-                        SanPham
-                    JOIN 
-                        CPU ON SanPham.id_CPU = CPU.id_CPU
-                    JOIN 
-                        GPU ON SanPham.id_GPU = GPU.id_GPU
-                    JOIN 
-                        Ram ON SanPham.id_Ram = Ram.id_Ram
-                    JOIN 
-                        ManHinh ON SanPham.id_ManHinh = ManHinh.id_ManHinh
-                    JOIN 
-                        OCung ON SanPham.id_OCung = OCung.id_OCung
-                    JOIN 
-                        Pin ON SanPham.id_Pin = Pin.id_Pin;
-                    """;
-        try (Connection con =DBConnect.getConnection();PreparedStatement ps = con.prepareStatement(sql)){
-        ResultSet rs = ps.executeQuery();
-            while (rs.next()) {                
-                BanHang bh = BanHang.builder()
-                        .maSP(rs.getString(1))
-                        .tenSP(rs.getString(2))
-                        .tenCPU(rs.getString(3))
-                        .tenGPU(rs.getString(4))
-                        .tenRam(rs.getString(5))
-                        .tenMH(rs.getString(6))
-                        .tenOCung(rs.getString(7))
-                        .pin(rs.getString(8))
-                        .giaSP(rs.getFloat(9))
-                        .soLuongSP(rs.getInt(10))
+    public ArrayList<SanPhamResponse> getAll(){
+        ArrayList<SanPhamResponse> listSP = new ArrayList<>();
+        String sql = """
+                     SELECT dbo.SanPham.id_SanPham, dbo.SanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.SanPham.HinhAnh, dbo.CPU.TenCPU, dbo.GPU.TenGPU, dbo.OCung.LoaiOCung, dbo.Ram.DungLuongRam, dbo.ManHinh.KichThuoc, dbo.Pin.DungLuongPin, 
+                                  dbo.SanPham.SoLuong, dbo.SanPham.GiaNhap, dbo.SanPham.GiaBan, dbo.SanPham.TrangThai
+                     FROM   dbo.CPU INNER JOIN
+                                  dbo.SanPham ON dbo.CPU.id_CPU = dbo.SanPham.id_CPU INNER JOIN
+                                  dbo.GPU ON dbo.SanPham.id_GPU = dbo.GPU.id_GPU INNER JOIN                                  
+                                  dbo.ManHinh ON dbo.SanPham.id_ManHinh = dbo.ManHinh.id_ManHinh INNER JOIN
+                                  dbo.OCung ON dbo.SanPham.id_OCung = dbo.OCung.id_OCung INNER JOIN
+                                  dbo.Pin ON dbo.SanPham.id_Pin = dbo.Pin.id_Pin INNER JOIN
+                                  dbo.Ram ON dbo.SanPham.id_Ram = dbo.Ram.id_Ram
+                     WHERE dbo.SanPham.TrangThai = 1
+                     order by [id_SanPham] desc
+                     """;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                SanPhamResponse spResponse = SanPhamResponse.builder()
+                        .IdSanPham(rs.getInt(1))
+                        .MaSanPham(rs.getString(2))
+                        .TenSanPham(rs.getString(3))
+                        .HinhAnh(rs.getString(4))
+                        .TenCPU(rs.getString(5))
+                        .TenGPU(rs.getString(6))
+                        .LoaiOCung(rs.getString(7))
+                        .DungLuongRam(rs.getString(8))
+                        .KichThuoc(rs.getString(9))
+                        .DungLuongPin(rs.getString(10))
+                        .SoLuong(rs.getInt(11))
+                        .GiaNhap(rs.getInt(12))
+                        .GiaBan(rs.getInt(13))
                         .build();
-                list.add(bh);
+                listSP.add(spResponse);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
-        return list;
+        return listSP;
     }
+    
+    public ArrayList<SanPhamResponse> getAllGioHang(){
+        ArrayList<SanPhamResponse> listSP = new ArrayList<>();
+        String sql = """
+                     
+                     """;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                SanPhamResponse spResponse = SanPhamResponse.builder()
+                        .IdSanPham(rs.getInt(1))
+                        .MaSanPham(rs.getString(2))
+                        .TenSanPham(rs.getString(3))
+                        .HinhAnh(rs.getString(4))
+                        .TenCPU(rs.getString(5))
+                        .TenGPU(rs.getString(6))
+                        .LoaiOCung(rs.getString(7))
+                        .DungLuongRam(rs.getString(8))
+                        .KichThuoc(rs.getString(9))
+                        .DungLuongPin(rs.getString(10))
+                        .SoLuong(rs.getInt(11))
+                        .GiaNhap(rs.getInt(12))
+                        .GiaBan(rs.getInt(13))
+                        .build();
+                listSP.add(spResponse);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return listSP;
+    }
+    
 }

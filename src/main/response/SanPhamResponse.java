@@ -16,6 +16,12 @@ import lombok.ToString;
 
 public class SanPhamResponse {
     private Integer IdSanPham;
+    private Integer IdRam;
+    private Integer IdCPU;
+    private Integer IdGPU;
+    private Integer IdManHinh;
+    private Integer IdOCung;
+    private Integer IdPin;
     private String MaSanPham;
     private String TenSanPham;
     private String MaImei;
@@ -29,5 +35,6 @@ public class SanPhamResponse {
     private Integer SoLuong;
     private Integer GiaNhap;
     private Integer GiaBan;
+    private Integer TrangThai;
 }
 
