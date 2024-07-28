@@ -1,15 +1,24 @@
 package main.form;
 
+<<<<<<< HEAD
+import javax.swing.JOptionPane;
+import main.config.DBConnect;
+=======
 import java.awt.Color;
+>>>>>>> 56a2612090062496d278c7422ac25c0e464171f3
 import main.view.chucnang.BanHang;
 import main.view.chucnang.HoaDon;
 import main.view.chucnang.KhachHangView;
 import main.view.chucnang.KhuyenMai;
 import main.view.chucnang.NhanVienView;
 import main.view.chucnang.SanPhamView;
-import main.view.chucnang.TaiKhoan;
+import main.view.chucnang.TaiKhoan;  
 import main.view.chucnang.ThongKe;
 import main.view.chucnang.TrangChu;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import main.config.DBConnect;
 
 public class Menu extends javax.swing.JFrame {
 
@@ -22,13 +31,33 @@ public class Menu extends javax.swing.JFrame {
     TaiKhoan taikhoanForm = new TaiKhoan();
     ThongKe thongkeForm = new ThongKe();
     SanPhamView sanphamForm = new SanPhamView();
+<<<<<<< HEAD
+    Color ClickedColor = new Color(102, 102, 102);
+    Color DefaultColor = new Color(51, 51, 51);
     
+=======
+
+>>>>>>> bb8169a129869a1e7c9bfb684e454796955f145e
     public Menu() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
 
+<<<<<<< HEAD
+    private void DefaultColorForm(){
+        trangchuPanel.setBackground(DefaultColor);
+        sanphamPanel.setBackground(DefaultColor);
+        banhangPanel.setBackground(DefaultColor);
+        khuyenmaiPanel.setBackground(DefaultColor);
+        hoadonPanel1.setBackground(DefaultColor);
+        khachhangPanel.setBackground(DefaultColor);
+        nhanvienPanel.setBackground(DefaultColor);
+        taikhoanPanel.setBackground(DefaultColor);
+        thongkePanel.setBackground(DefaultColor);
+    }
     
+=======
+>>>>>>> bb8169a129869a1e7c9bfb684e454796955f145e
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -96,6 +125,9 @@ public class Menu extends javax.swing.JFrame {
         trangchuPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 trangchuPanelMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                trangchuPanelMousePressed(evt);
             }
         });
 
@@ -174,6 +206,9 @@ public class Menu extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 banhangPanelMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                banhangPanelMousePressed(evt);
+            }
         });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -210,6 +245,9 @@ public class Menu extends javax.swing.JFrame {
         khachhangPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 khachhangPanelMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                khachhangPanelMousePressed(evt);
             }
         });
 
@@ -248,6 +286,9 @@ public class Menu extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 khuyenmaiPanelMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                khuyenmaiPanelMousePressed(evt);
+            }
         });
 
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -284,6 +325,9 @@ public class Menu extends javax.swing.JFrame {
         thongkePanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 thongkePanelMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                thongkePanelMousePressed(evt);
             }
         });
 
@@ -360,6 +404,9 @@ public class Menu extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 hoadonPanel1MouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                hoadonPanel1MousePressed(evt);
+            }
         });
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -397,6 +444,9 @@ public class Menu extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 taikhoanPanelMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                taikhoanPanelMousePressed(evt);
+            }
         });
 
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -433,6 +483,9 @@ public class Menu extends javax.swing.JFrame {
         nhanvienPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 nhanvienPanelMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                nhanvienPanelMousePressed(evt);
             }
         });
 
@@ -492,16 +545,6 @@ public class Menu extends javax.swing.JFrame {
         mainPanel.add(trangchuForm).setVisible(true);
     }//GEN-LAST:event_trangchuPanelMouseClicked
 
-    private void sanphamPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sanphamPanelMouseClicked
-        mainPanel.removeAll();
-        mainPanel.add(sanphamForm).setVisible(true);
-    }//GEN-LAST:event_sanphamPanelMouseClicked
-
-    private void banhangPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banhangPanelMouseClicked
-        mainPanel.removeAll();
-        mainPanel.add(banhangForm).setVisible(true);
-    }//GEN-LAST:event_banhangPanelMouseClicked
-
     private void khachhangPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_khachhangPanelMouseClicked
         mainPanel.removeAll();
         mainPanel.add(khachhangForm).setVisible(true);
@@ -528,6 +571,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_taikhoanPanelMouseClicked
 
     private void nhanvienPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nhanvienPanelMouseClicked
+
         mainPanel.removeAll();
         mainPanel.add(nhanvienForm).setVisible(true);
     }//GEN-LAST:event_nhanvienPanelMouseClicked
@@ -538,9 +582,60 @@ public class Menu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_DangXuatPaneMouseClicked
 
-    private void sanphamPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sanphamPanelMousePressed
+    private void sanphamPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sanphamPanelMouseClicked
+        mainPanel.removeAll();
+        mainPanel.add(sanphamForm).setVisible(true);
+    }//GEN-LAST:event_sanphamPanelMouseClicked
 
+    private void banhangPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banhangPanelMouseClicked
+        mainPanel.removeAll();
+        mainPanel.add(banhangForm).setVisible(true);
+    }//GEN-LAST:event_banhangPanelMouseClicked
+
+    private void trangchuPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trangchuPanelMousePressed
+        this.DefaultColorForm();
+        trangchuPanel.setBackground(ClickedColor);
+    }//GEN-LAST:event_trangchuPanelMousePressed
+
+    private void sanphamPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sanphamPanelMousePressed
+        this.DefaultColorForm();
+        sanphamPanel.setBackground(ClickedColor);
     }//GEN-LAST:event_sanphamPanelMousePressed
+
+    private void banhangPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banhangPanelMousePressed
+        this.DefaultColorForm();
+        banhangPanel.setBackground(ClickedColor);
+    }//GEN-LAST:event_banhangPanelMousePressed
+
+    private void khachhangPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_khachhangPanelMousePressed
+        this.DefaultColorForm();
+        khachhangPanel.setBackground(ClickedColor);
+    }//GEN-LAST:event_khachhangPanelMousePressed
+
+    private void khuyenmaiPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_khuyenmaiPanelMousePressed
+        this.DefaultColorForm();
+        khuyenmaiPanel.setBackground(ClickedColor);
+    }//GEN-LAST:event_khuyenmaiPanelMousePressed
+
+    private void thongkePanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_thongkePanelMousePressed
+        this.DefaultColorForm();
+        thongkePanel.setBackground(ClickedColor);
+    }//GEN-LAST:event_thongkePanelMousePressed
+
+    private void hoadonPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hoadonPanel1MousePressed
+        this.DefaultColorForm();
+        hoadonPanel1.setBackground(ClickedColor);
+    }//GEN-LAST:event_hoadonPanel1MousePressed
+
+    private void nhanvienPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nhanvienPanelMousePressed
+        this.DefaultColorForm();
+        nhanvienPanel.setBackground(ClickedColor);
+    }//GEN-LAST:event_nhanvienPanelMousePressed
+
+    private void taikhoanPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_taikhoanPanelMousePressed
+        this.DefaultColorForm();
+        taikhoanPanel.setBackground(ClickedColor);
+    }//GEN-LAST:event_taikhoanPanelMousePressed
 
     /**
      * @param args the command line arguments
@@ -614,4 +709,5 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel thongkePanel;
     private javax.swing.JPanel trangchuPanel;
     // End of variables declaration//GEN-END:variables
+
 }

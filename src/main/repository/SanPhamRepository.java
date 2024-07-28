@@ -150,7 +150,7 @@ public class SanPhamRepository {
                                 ,[GiaBan]
                                 ,[TrangThai])
                           VALUES
-                                (?,?,?,?,?,?,?,1,0,?,?,1)
+                                (?,?,?,?,?,?,?,?,0,?,?,1)
                      """;
         int check = 0;
         try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -161,8 +161,9 @@ public class SanPhamRepository {
             ps.setObject(5, sp.getIdOCung());
             ps.setObject(6, sp.getIdPin());
             ps.setObject(7, sp.getTenSanPham());
-            ps.setObject(8, sp.getGiaNhap());
-            ps.setObject(9, sp.getGiaBan());
+            ps.setObject(8, sp.getHinhAnh());
+            ps.setObject(9, sp.getGiaNhap());
+            ps.setObject(10, sp.getGiaBan());
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -180,7 +181,7 @@ public class SanPhamRepository {
                            ,[id_OCung] = ?
                            ,[id_Pin] = ?
                            ,[TenSanPham] = ?
-                           ,[HinhAnh] = 2
+                           ,[HinhAnh] = ?
                            ,[GiaNhap] = ?
                            ,[GiaBan] = ?
                       WHERE id_SanPham = ?
@@ -194,9 +195,10 @@ public class SanPhamRepository {
             ps.setObject(5, sanphamRequest.getIdOCung());
             ps.setObject(6, sanphamRequest.getIdPin());
             ps.setObject(7, sanphamRequest.getTenSanPham());
-            ps.setObject(8, sanphamRequest.getGiaNhap());
-            ps.setObject(9, sanphamRequest.getGiaBan());
-            ps.setObject(10, IdSP);
+            ps.setObject(8, sanphamRequest.getHinhAnh());
+            ps.setObject(9, sanphamRequest.getGiaNhap());
+            ps.setObject(10, sanphamRequest.getGiaBan());
+            ps.setObject(11, IdSP);
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -216,6 +218,22 @@ public class SanPhamRepository {
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
+        }
+        return check > 0;
+    }
+    
+    public Boolean updateQuantity(Integer soLuong, String maSP){
+        String sql = """
+                     update SanPham set SoLuong = ?
+                     where MaSanPham = ?
+                     """;
+        int check = 0;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, soLuong);
+            ps.setObject(2, maSP);
+            check = ps.executeUpdate();
+        } catch (Exception e) {
+           e.printStackTrace(System.out);
         }
         return check > 0;
     }
