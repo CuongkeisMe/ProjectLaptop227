@@ -1,26 +1,33 @@
 package main.form;
 
-<<<<<<< HEAD
 import javax.swing.JOptionPane;
 import main.config.DBConnect;
-=======
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+
 import java.awt.Color;
->>>>>>> 56a2612090062496d278c7422ac25c0e464171f3
+
 import main.view.chucnang.BanHang;
 import main.view.chucnang.HoaDon;
 import main.view.chucnang.KhachHangView;
 import main.view.chucnang.KhuyenMai;
 import main.view.chucnang.NhanVienView;
 import main.view.chucnang.SanPhamView;
-import main.view.chucnang.TaiKhoan;  
+import main.view.chucnang.TaiKhoan;
 import main.view.chucnang.ThongKe;
 import main.view.chucnang.TrangChu;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import main.config.DBConnect;
 
 public class Menu extends javax.swing.JFrame {
+
+    
 
     TrangChu trangchuForm = new TrangChu();
     HoaDon hoadonForm = new HoaDon();
@@ -33,6 +40,7 @@ public class Menu extends javax.swing.JFrame {
     SanPhamView sanphamForm = new SanPhamView();
 
     public Menu() {
+        
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -536,9 +544,13 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_taikhoanPanelMouseClicked
 
     private void nhanvienPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nhanvienPanelMouseClicked
-
-        mainPanel.removeAll();
-        mainPanel.add(nhanvienForm).setVisible(true);
+       DangNhap dn = new DangNhap();
+        if (dn.vaiTro == 0) {
+            mainPanel.removeAll();
+            mainPanel.add(nhanvienForm).setVisible(true);
+        } else if (dn.vaiTro == 1) {
+            JOptionPane.showMessageDialog(this, "Bạn Không có quyền ở chức năng này");
+        }
     }//GEN-LAST:event_nhanvienPanelMouseClicked
 
     private void DangXuatPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DangXuatPaneMouseClicked
@@ -585,6 +597,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DangXuatPane;
