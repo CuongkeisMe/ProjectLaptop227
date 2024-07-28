@@ -19,7 +19,7 @@ public class KhachHangView extends javax.swing.JInternalFrame {
         AtomicInteger index = new AtomicInteger(0);
         list.forEach(s -> df.addRow(new Object[]{
             //            index.getAndIncrement(),
-            s.getId(), s.getMa(), s.getTen(), s.getNgaySinh(), s.isGioiTinh()?"Nam":"Nữ",
+            s.getId(), s.getMa(), s.getTen(), s.getNgaySinh(), s.isGioiTinh() ? "Nam" : "Nữ",
             s.getSdt(), s.getEmail(), s.getDiaChi(), s.getTrangThai()
         }));
     }
@@ -416,22 +416,94 @@ public class KhachHangView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtDiaChiActionPerformed
 
     private void btThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btThemActionPerformed
-        rp.add(getFormData());
-        showDataTB(rp.getAll());
+        if (this.isVisible()) {
+            String ten = txtTen.getText();
+            String regex = "^[a-zA-Z\\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]+$";
+            // chứa chữ cái và khoảng trắng 
+            if (ten.length() > 0) {
+                if (!ten.matches(regex)) {// tên sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại tên,Vd: Đỗ Thị Thúy Ly");
+                    txtTen.requestFocus();
+                    return;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Tên không được để trống");
+                txtTen.requestFocus();
+                return;
+            }
+        }
+
+        if (this.isVisible()) {
+            String sdt = txtSdt.getText();
+            String regex = "^(0|\\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9])[0-9]{7}$";//chứa số điện thoại 10 số hay 11 số, đầu 09 or +84
+            if (sdt.length() > 0) {
+                if (!sdt.matches(regex)) {// địa chỉ sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại số điện thoại,VD: 0976766682 hoặc +84961659480");
+                    txtSdt.requestFocus();
+                    return;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Số điện thoại không được để trống");
+                txtSdt.requestFocus();
+                return;
+            }
+        }
+
+        if (this.isVisible()) {
+            String diaChi = txtDiaChi.getText();
+            String regex = "^[a-zA-Z0-9\\s,.-/]+$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
+            if (diaChi.length() > 0) {
+                if (!diaChi.matches(regex)) {// địa chỉ sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại địa chỉ,và k được chứa kí tự đặc biệt: @#$%...");
+                    txtDiaChi.requestFocus();
+                    return;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
+                txtDiaChi.requestFocus();
+                return;
+            }
+        }
+
+        if (this.isVisible()) {
+            String email = txtEmail.getText();
+            String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
+            if (email.length() > 0) {
+                if (!email.matches(regex)) {// địa chỉ sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại địa chỉ,và k được chứa kí tự đặc biệt: @#$%...");
+                    txtEmail.requestFocus();
+                    return;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
+                txtEmail.requestFocus();
+                return;
+            }
+        }
+        int chon = JOptionPane.showConfirmDialog(this, "Ban có chắc muốn thêm?");
+        if (chon == 0) {
+            rp.add(getFormData());
+            JOptionPane.showMessageDialog(this, "thêm thành công");
+            showDataTB(rp.getAll());
+        }
+
+
     }//GEN-LAST:event_btThemActionPerformed
 
     private void btXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btXoaActionPerformed
         int index = tbKhachHang.getSelectedRow();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Chua chon dong de xoa");
-        } else {
-            if (rp.delete(rp.getAll().get(index).getId())) {
-                JOptionPane.showMessageDialog(this, "Xoa thanh cong");
-                showDataTB(rp.getAll());
+        int chon = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa?");
+        if (chon == 0) {
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Chua chon dong de xoa");
             } else {
-                JOptionPane.showMessageDialog(this, "Xoa that bai");
+                if (rp.delete(rp.getAll().get(index).getId())) {
+                    JOptionPane.showMessageDialog(this, "Xoa thanh cong");
+                    showDataTB(rp.getAll());
+                }
             }
         }
+
 
     }//GEN-LAST:event_btXoaActionPerformed
 
@@ -445,16 +517,21 @@ public class KhachHangView extends javax.swing.JInternalFrame {
 
     private void btSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSuaActionPerformed
         int index = tbKhachHang.getSelectedRow();
-        if (index == -1) {
-            JOptionPane.showMessageDialog(this, "Chua chon dong de sua");
-        } else {
-            if (rp.update(getFormData(), rp.getAll().get(index).getId())) {
-                JOptionPane.showMessageDialog(this, "Sua thanh cong");
-                showDataTB(rp.getAll());
+        int chon = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn sửa?");
+        if (chon == 0) {
+            if (index == -1) {
+                JOptionPane.showMessageDialog(this, "Chua chon dong de sua");
             } else {
-                JOptionPane.showMessageDialog(this, "Sua that bai");
+                if (rp.update(getFormData(), rp.getAll().get(index).getId())) {
+                    JOptionPane.showMessageDialog(this, "Sua thanh cong");
+                    showDataTB(rp.getAll());
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sua that bai");
+                }
             }
         }
+
+
     }//GEN-LAST:event_btSuaActionPerformed
 
 
