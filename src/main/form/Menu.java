@@ -1,11 +1,11 @@
 package main.form;
 
-<<<<<<< HEAD
+
 import javax.swing.JOptionPane;
 import main.config.DBConnect;
-=======
+
 import java.awt.Color;
->>>>>>> 56a2612090062496d278c7422ac25c0e464171f3
+
 import main.view.chucnang.BanHang;
 import main.view.chucnang.HoaDon;
 import main.view.chucnang.KhachHangView;
@@ -31,19 +31,17 @@ public class Menu extends javax.swing.JFrame {
     TaiKhoan taikhoanForm = new TaiKhoan();
     ThongKe thongkeForm = new ThongKe();
     SanPhamView sanphamForm = new SanPhamView();
-<<<<<<< HEAD
+
     Color ClickedColor = new Color(102, 102, 102);
     Color DefaultColor = new Color(51, 51, 51);
     
-=======
 
->>>>>>> bb8169a129869a1e7c9bfb684e454796955f145e
     public Menu() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
 
-<<<<<<< HEAD
+
     private void DefaultColorForm(){
         trangchuPanel.setBackground(DefaultColor);
         sanphamPanel.setBackground(DefaultColor);
@@ -56,8 +54,7 @@ public class Menu extends javax.swing.JFrame {
         thongkePanel.setBackground(DefaultColor);
     }
     
-=======
->>>>>>> bb8169a129869a1e7c9bfb684e454796955f145e
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

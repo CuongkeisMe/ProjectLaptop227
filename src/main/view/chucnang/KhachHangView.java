@@ -8,11 +8,14 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import main.entity.KhachHang;
 import main.repository.KhachHangRepository;
+import main.request.FindKhachHang;
+import main.response.KhachHangResponse;
 
 public class KhachHangView extends javax.swing.JInternalFrame {
 
     private DefaultTableModel df;
     private KhachHangRepository rp;
+    private DefaultTableModel dtmLichSu;
 
     private void showDataTB(ArrayList<KhachHang> list) {
         df.setRowCount(0);// xoa tat ca cac hang hien tai trong bang 
@@ -23,13 +26,29 @@ public class KhachHangView extends javax.swing.JInternalFrame {
             s.getSdt(), s.getEmail(), s.getDiaChi(), s.getTrangThai()
         }));
     }
+    
+    private void showDataTableLichSu(ArrayList<KhachHangResponse> list){
+        dtmLichSu.setRowCount(0);
+        AtomicInteger index = new AtomicInteger(1);
+        list.forEach(x -> dtmLichSu.addRow(new Object[]{
+            index.getAndIncrement(), x.getMaKh(), x.getMaHd(), x.getHoTen(), x.getSdt(), x.getDiaChi(), x.getNgayThanhToan(), x.getTongTien()
+        }));
+    }
 
+    private FindKhachHang getFormSearch(){
+        FindKhachHang fkh = new FindKhachHang();
+        fkh.setKeySearch(txtTimKH.getText());
+        return fkh;
+    }
+    
     public KhachHangView() {
         initComponents();
         this.cauhinhForm();
         df = (DefaultTableModel) tbKhachHang.getModel();
+        dtmLichSu = (DefaultTableModel) tbLichSuGiaoDich.getModel();
         rp = new KhachHangRepository();
-        this.showDataTB(rp.getAll());
+        this.showDataTB(rp.getAll(getFormSearch()));
+        this.showDataTableLichSu(rp.getLSGD());
     }
 
     public void cauhinhForm() {
@@ -39,7 +58,7 @@ public class KhachHangView extends javax.swing.JInternalFrame {
     }
 
     public void detail(int index) {
-        KhachHang kh = rp.getAll().get(index);
+        KhachHang kh = rp.getAll(getFormSearch()).get(index);
         txtTen.setText(kh.getTen());
         dateNgaySinh.setDate(kh.getNgaySinh());
         rdNam.setSelected(kh.isGioiTinh());
@@ -392,7 +411,7 @@ public class KhachHangView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tbKhachHangMouseClicked
 
     private void btTimKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTimKHActionPerformed
-        // TODO add your handling code here:
+        this.showDataTB(rp.getAll(getFormSearch()));
     }//GEN-LAST:event_btTimKHActionPerformed
 
     private void btTimLichSuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTimLichSuActionPerformed
@@ -435,7 +454,7 @@ public class KhachHangView extends javax.swing.JInternalFrame {
 
         if (this.isVisible()) {
             String sdt = txtSdt.getText();
-            String regex = "^(0|\\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9])[0-9]{7}$";//chứa số điện thoại 10 số hay 11 số, đầu 09 or +84
+            String regex = "^(0|\\+84)(3[2-9]|5[689]|7[06-9]|8[1-5]|9[0-9])[0-9]{7}$";//chứa số điện thoại 10 số hay 11 số, đầu 09 or +84
             if (sdt.length() > 0) {
                 if (!sdt.matches(regex)) {// địa chỉ sai định dạng
                     JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại số điện thoại,VD: 0976766682 hoặc +84961659480");
@@ -449,6 +468,23 @@ public class KhachHangView extends javax.swing.JInternalFrame {
             }
         }
 
+
+        if (this.isVisible()) {
+            String email = txtEmail.getText();
+            String regex = "^(?=[A-Z0-9._%+-]{1,64}@)[A-Z0-9._%+-]{1,64}@[A-Z0-9.-]{1,255}\\.[A-Z]{2,63}$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
+            if (email.length() > 0) {
+                if (!email.matches(regex)) {// địa chỉ sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại Email,Vd: doly862005@gmail.com");
+                    txtEmail.requestFocus();
+                    return;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Email không được để trống");
+                txtEmail.requestFocus();
+                return;
+            }
+        }
+        
         if (this.isVisible()) {
             String diaChi = txtDiaChi.getText();
             String regex = "^[a-zA-Z0-9\\s,.-/]+$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
@@ -464,27 +500,12 @@ public class KhachHangView extends javax.swing.JInternalFrame {
                 return;
             }
         }
-
-        if (this.isVisible()) {
-            String email = txtEmail.getText();
-            String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
-            if (email.length() > 0) {
-                if (!email.matches(regex)) {// địa chỉ sai định dạng
-                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại địa chỉ,và k được chứa kí tự đặc biệt: @#$%...");
-                    txtEmail.requestFocus();
-                    return;
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
-                txtEmail.requestFocus();
-                return;
-            }
-        }
+        
         int chon = JOptionPane.showConfirmDialog(this, "Ban có chắc muốn thêm?");
         if (chon == 0) {
             rp.add(getFormData());
             JOptionPane.showMessageDialog(this, "thêm thành công");
-            showDataTB(rp.getAll());
+            showDataTB(rp.getAll(getFormSearch()));
         }
 
 
@@ -497,9 +518,9 @@ public class KhachHangView extends javax.swing.JInternalFrame {
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Chua chon dong de xoa");
             } else {
-                if (rp.delete(rp.getAll().get(index).getId())) {
+                if (rp.delete(rp.getAll(getFormSearch()).get(index).getId())) {
                     JOptionPane.showMessageDialog(this, "Xoa thanh cong");
-                    showDataTB(rp.getAll());
+                    showDataTB(rp.getAll(getFormSearch()));
                 }
             }
         }
@@ -522,9 +543,9 @@ public class KhachHangView extends javax.swing.JInternalFrame {
             if (index == -1) {
                 JOptionPane.showMessageDialog(this, "Chua chon dong de sua");
             } else {
-                if (rp.update(getFormData(), rp.getAll().get(index).getId())) {
+                if (rp.update(getFormData(), rp.getAll(getFormSearch()).get(index).getId())) {
                     JOptionPane.showMessageDialog(this, "Sua thanh cong");
-                    showDataTB(rp.getAll());
+                    showDataTB(rp.getAll(getFormSearch()));
                 } else {
                     JOptionPane.showMessageDialog(this, "Sua that bai");
                 }
