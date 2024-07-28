@@ -70,21 +70,4 @@ public class ImeiRepository {
         return check > 0;
     }
     
-    public Boolean updateIdSP(SanPham sp, Integer IdImei){
-        String sql = """
-                     UPDATE [dbo].[Imei]
-                        SET [id_SanPham] = ?
-                      WHERE id_Imei = ?
-                     """;
-        int check = 0;
-        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setObject(1, sp.getIdSanPham());
-            ps.setObject(2, IdImei);
-            check = ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-        }
-        return check > 0;
-    }
-
 }

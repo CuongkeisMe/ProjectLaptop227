@@ -1,9 +1,13 @@
 package main.view.chucnang;
 
+import java.awt.Image;
 import java.awt.Insets;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -33,9 +37,12 @@ import main.view.sanphamchitiet.ManHinhView;
 import main.view.sanphamchitiet.OCungView;
 import main.view.sanphamchitiet.PinView;
 import main.view.sanphamchitiet.RamView;
+import main.view.saveImg.XImage;
 
 public class SanPhamView extends javax.swing.JInternalFrame {
-
+    int donVi = 1;
+    JFileChooser fileChooser = new JFileChooser();
+    
     private DefaultTableModel dtmSanPham;
     private DefaultTableModel dtmImei;
     private DefaultTableModel dtmImeiChiTiet;
@@ -58,6 +65,8 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     private OCungRepository ocungRepository;
     private ImeiRepository imeiRepository;
     private SanPhamResponse sanphamResponse;
+    
+    int row = 0;
 
     public SanPhamView() {
         initComponents();
@@ -69,6 +78,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         dtmImeiChiTiet = (DefaultTableModel) tblImeiCT.getModel();
         dtmSanPhamDaXoa = (DefaultTableModel) tblQuanLySPDaXoa.getModel();
         sanphamRepository = new SanPhamRepository();
+        sanphamResponse = new SanPhamResponse();
         this.cboDinhDang();
         this.repositoryDinhDang();
         this.showComboboxCPU();
@@ -80,7 +90,17 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         this.showComboboxSanPham();
         this.showDataTableSanPham(sanphamRepository.getAll(getFormSearch()));
         this.showDataTableImei(sanphamRepository.getAll(getFormSearch()));
-//        this.showDataTableSanPhamDaXoa(sanphamRepository.getAllDelete());
+//      this.showDataTableSanPhamDaXoa(sanphamRepository.getAllDelete());
+    }
+
+    public void chonAnh(){
+        if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            File file = fileChooser.getSelectedFile();
+            XImage.save(file);
+            ImageIcon icon = XImage.read(file.getName());
+            lbHinhAnh.setIcon(icon);
+            lbHinhAnh.setToolTipText(file.getName());
+        }
     }
 
     public void cauhinhForm() {
@@ -167,24 +187,12 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         }));
     }
 
-    public void showDataTableSanPhamDaXoa(ArrayList<SanPhamResponse> list) {
-        dtmSanPham.setRowCount(0);
-        list.forEach(x -> dtmSanPham.addRow(new Object[]{
-            x.getMaSanPham(), x.getTenSanPham(), x.getHinhAnh(), x.getTenCPU(), x.getTenGPU(),
-            x.getLoaiOCung(), x.getDungLuongRam(), x.getKichThuoc(), x.getDungLuongPin(),
-            x.getGiaNhap(), x.getGiaBan()
-        }));
-    }
-
     public void showDataTableImei(ArrayList<SanPhamResponse> list) {
         dtmImei.setRowCount(0);
         AtomicInteger index = new AtomicInteger(1);
         list.forEach(x -> dtmImei.addRow(new Object[]{
             index.getAndIncrement(), x.getMaSanPham(), x.getTenSanPham(), x.getGiaNhap(), x.getGiaBan(), x.getSoLuong()
         }));
-        for (int i = 0; i < sanphamRepository.getAll(getFormSearch()).size(); i++) {
-
-        }
     }
 
     public void ShowDataTableImeiChiTiet(String MaSP) {
@@ -198,6 +206,10 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     private void detail(int index) {
         SanPhamResponse spReponse = sanphamRepository.getAll(getFormSearch()).get(index);
         txtTenSP.setText(spReponse.getTenSanPham());
+        if(!sanphamResponse.getHinhAnh().equals("")){
+           lbHinhAnh.setIcon(XImage.read(sanphamResponse.getHinhAnh()));
+           lbHinhAnh.setToolTipText(sanphamResponse.getHinhAnh());
+        }
         cboCPU.setSelectedItem(spReponse.getTenCPU());
         cboGPU.setSelectedItem(spReponse.getTenGPU());
         cboOCung.setSelectedItem(spReponse.getLoaiOCung());
@@ -223,6 +235,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
                 .IdOCung(ocungRepository.getAll().get(indexOCung).getIdOCung())
                 .IdPin(pinRepository.getAll().get(indexPin).getIdPin())
                 .TenSanPham(txtTenSP.getText())
+                .HinhAnh(lbHinhAnh.getToolTipText())
                 .GiaNhap(Integer.parseInt(txtGiaNhap.getText()))
                 .GiaBan(Integer.parseInt(txtGiaBan.getText()))
                 .build();
@@ -248,15 +261,30 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         }
         return 0;
     }
+    
+    private int getSanPhamSelectedRow(){
+        for(int i = 0; i < dtmImei.getRowCount(); i++){
+            if(dtmImei.getValueAt(i, 1).equals(sanphamDcbm.getSelectedItem())){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    private int getSoLuong(){
+        int soLuong = sanphamRepository.getAll(getFormSearch()).get(this.getSanPhamSelectedRow()).getSoLuong();
+        return soLuong;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDayChooser1 = new com.toedter.calendar.JDayChooser();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lbHinhAnh = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         txtTenSP = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
@@ -326,9 +354,14 @@ public class SanPhamView extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, " ", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Chọn hình ảnh");
-        jLabel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        lbHinhAnh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbHinhAnh.setText("Chọn hình ảnh");
+        lbHinhAnh.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        lbHinhAnh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lbHinhAnhMousePressed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jLabel16.setText("Tên SP");
@@ -355,7 +388,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel20)
@@ -372,7 +405,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTenSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -680,6 +713,9 @@ public class SanPhamView extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblQLyImeiMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblQLyImeiMousePressed(evt);
+            }
         });
         jScrollPane2.setViewportView(tblQLyImei);
 
@@ -934,6 +970,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAddPinActionPerformed
 
     private void tblQuanLySPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLySPMouseClicked
+        this.row = tblQuanLySP.rowAtPoint(evt.getPoint());
         this.detail(tblQuanLySP.getSelectedRow());
     }//GEN-LAST:event_tblQuanLySPMouseClicked
 
@@ -993,7 +1030,9 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         if (chon == 0) {
             if (imeiRepository.add(this.getFormDataImei(), this.getIdSpByMa())) {
                 JOptionPane.showMessageDialog(this, "Thêm thành công");
-                this.ShowDataTableImeiChiTiet(title);
+                this.ShowDataTableImeiChiTiet(sanphamResponse.getMaSanPham());
+                sanphamRepository.updateQuantity(this.getSoLuong() + 1, sanphamRepository.getAll(getFormSearch()).get(this.getSanPhamSelectedRow()).getMaSanPham());
+                this.showDataTableImei(sanphamRepository.getAll(getFormSearch()));
             }
         }
 
@@ -1004,8 +1043,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnClearImeiActionPerformed
 
     private void tblQLyImeiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQLyImeiMouseClicked
-        int index = tblQLyImei.getSelectedRow();
-        this.ShowDataTableImeiChiTiet(sanphamRepository.getAll(getFormSearch()).get(index).getMaSanPham());
+
     }//GEN-LAST:event_tblQLyImeiMouseClicked
 
     private void tblQuanLySPDaXoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLySPDaXoaMouseClicked
@@ -1052,6 +1090,17 @@ public class SanPhamView extends javax.swing.JInternalFrame {
         this.showDataTableSanPham(sanphamRepository.getAll(getFormSearch()));
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void lbHinhAnhMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbHinhAnhMousePressed
+        if(evt.getClickCount() == 2){
+            chonAnh();
+        }
+    }//GEN-LAST:event_lbHinhAnhMousePressed
+
+    private void tblQLyImeiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQLyImeiMousePressed
+        int index = tblQLyImei.getSelectedRow();
+        this.ShowDataTableImeiChiTiet(sanphamRepository.getAll(getFormSearch()).get(index).getMaSanPham());
+    }//GEN-LAST:event_tblQLyImeiMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -1075,6 +1124,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboRam;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private com.toedter.calendar.JDayChooser jDayChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1085,7 +1135,6 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1106,6 +1155,7 @@ public class SanPhamView extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lbHinhAnh;
     private javax.swing.JTable tblImeiCT;
     private javax.swing.JTable tblQLyImei;
     private javax.swing.JTable tblQuanLySP;

@@ -7,9 +7,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import main.config.DBConnect;
+import main.request.FindKhachHang;
+import main.response.KhachHangResponse;
 
 public class KhachHangRepository {
-    public ArrayList<KhachHang> getAll(){
+    public ArrayList<KhachHang> getAll(FindKhachHang fkh){
         ArrayList<KhachHang> list = new ArrayList<>();
         String sql = """
                      SELECT [id_KhachHang]
@@ -23,8 +25,24 @@ public class KhachHangRepository {
                            ,[TrangThai]
                        FROM [dbo].[KhachHang]
                      WHERE [TrangThai] = 1
+                     AND (
+                        [MaKhachHang] LIKE ?
+                        OR [HoTen] LIKE ?
+                        OR [NgaySinh] LIKE ?
+                        OR [GioiTinh] LIKE ?
+                        OR [SDT] LIKE ?
+                        OR [Email] LIKE ?
+                        OR [DiaChi] LIKE ?
+                     )
                      """;
         try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setObject(1, "%" + fkh.getKeySearch() + "%");
+            ps.setObject(2, "%" + fkh.getKeySearch() + "%");
+            ps.setObject(3, "%" + fkh.getKeySearch() + "%");
+            ps.setObject(4, "%" + fkh.getKeySearch() + "%");
+            ps.setObject(5, "%" + fkh.getKeySearch() + "%");
+            ps.setObject(6, "%" + fkh.getKeySearch() + "%");
+            ps.setObject(7, "%" + fkh.getKeySearch() + "%");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 KhachHang kh = KhachHang.builder()
@@ -45,6 +63,34 @@ public class KhachHangRepository {
         }
         return list;
     }
+    
+    public ArrayList<KhachHangResponse> getLSGD(){
+        ArrayList<KhachHangResponse> listLSGD = new ArrayList<>();
+        String sql = """
+                    SELECT    dbo.KhachHang.MaKhachHang, dbo.HoaDon.MaHoaDon, dbo.KhachHang.HoTen, dbo.KhachHang.SDT, dbo.KhachHang.DiaChi, dbo.HoaDon.NgayThanhToan, dbo.HoaDon.TongTien, dbo.HoaDon.TrangThai
+                     FROM         dbo.HoaDon INNER JOIN
+                                           dbo.KhachHang ON dbo.HoaDon.id_KhachHang = dbo.KhachHang.id_KhachHang
+                     """;
+        try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                KhachHangResponse khs = KhachHangResponse.builder()
+                        .maKh(rs.getString(1))
+                        .maHd(rs.getString(2))
+                        .hoTen(rs.getString(3))
+                        .sdt(rs.getString(4))
+                        .diaChi(rs.getString(5))
+                        .ngayThanhToan(rs.getDate(6))
+                        .tongTien(rs.getInt(7))
+                        .build();
+                listLSGD.add(khs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listLSGD;
+    }
+    
     public Boolean add(KhachHang kh){
         String sql = """
                      INSERT INTO [dbo].[KhachHang]
