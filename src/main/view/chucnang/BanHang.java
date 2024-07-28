@@ -4,22 +4,55 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
+import main.entity.HoaDonTro;
 import main.repository.BanHangSPRepositories;
+<<<<<<< HEAD
 import main.repository.SanPhamRepository;
 import main.response.SanPhamResponse;
 import main.view.sanphamchitiet.ImeiChiTiet;
+=======
+<<<<<<< HEAD
+import main.repository.SanPhamRepository;
+import main.response.SanPhamResponse;
+import main.view.sanphamchitiet.ImeiChiTiet;
+=======
+import main.repository.HoaDonRepository;
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
 
 public class BanHang extends javax.swing.JInternalFrame {
 
     private DefaultTableModel dtmSP;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
     private BanHangSPRepositories banhangRepository;
 
+=======
+    private DefaultTableModel dfhoadon;
+    private BanHangSPRepositories bhsp;
+    private HoaDonRepository hdsp;
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
     public BanHang() {
         initComponents();
         this.cauhinhForm();
+       
         dtmSP = (DefaultTableModel) tblSP.getModel();
+<<<<<<< HEAD
         banhangRepository = new BanHangSPRepositories();
         this.showDataTableSP(banhangRepository.getAll());
+=======
+<<<<<<< HEAD
+        banhangRepository = new BanHangSPRepositories();
+        this.showDataTableSP(banhangRepository.getAll());
+=======
+        dfhoadon=(DefaultTableModel) tblHoaDonTro.getModel();
+        hdsp= new HoaDonRepository();
+        bhsp = new BanHangSPRepositories();
+        this.showDataTableSP(bhsp.getAll());
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
     }
 
     private void showDataTableSP(ArrayList<SanPhamResponse> list) {
@@ -30,7 +63,23 @@ public class BanHang extends javax.swing.JInternalFrame {
             x.getGiaBan(), x.getSoLuong()
         }));
     }
+<<<<<<< HEAD
 
+=======
+     private void showDatahoadon(ArrayList<HoaDonTro> list) {
+        dfhoadon.setRowCount(0);
+        for (int i = 0; i < list.size(); i++) {
+           HoaDonTro hd = list.get(i);
+            dfhoadon.addRow(new Object[]{
+                i+1,
+                hd.getMaHoaDon(),
+                hd.getNgayTao(),
+                hd.getMaNhanVien(),
+                hd.getTinhTrang()?"Chờ Thanh Toán":"Đã Thanh Toán",
+            });
+        }
+     }
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
     public void cauhinhForm() {
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
@@ -53,8 +102,8 @@ public class BanHang extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton8 = new javax.swing.JButton();
+        tblHoaDonTro = new javax.swing.JTable();
+        btnTaoHoaDon = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblGioHang = new javax.swing.JTable();
@@ -150,7 +199,7 @@ public class BanHang extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Hóa đơn"));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblHoaDonTro.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -158,12 +207,17 @@ public class BanHang extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã HĐ", "Ngày tạo", "Tên NV", "Tình trạng"
+                "STT", "Mã HĐ", "Ngày tạo", "Mã Nhân Viên", "Tình trạng"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblHoaDonTro);
 
-        jButton8.setText("jButton8");
+        btnTaoHoaDon.setText("Tạo Hóa Đơn");
+        btnTaoHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaoHoaDonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -171,7 +225,7 @@ public class BanHang extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jButton8)
+                .addComponent(btnTaoHoaDon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(38, 38, 38))
@@ -183,7 +237,7 @@ public class BanHang extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTaoHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -436,6 +490,10 @@ public class BanHang extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField10ActionPerformed
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
     private void tblSPMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSPMousePressed
         int index = tblSP.getSelectedRow();
         String maSP = (String) tblSP.getValueAt(index, 0);
@@ -444,15 +502,25 @@ public class BanHang extends javax.swing.JInternalFrame {
             imei.setVisible(true);
         }
     }//GEN-LAST:event_tblSPMousePressed
+<<<<<<< HEAD
+
+=======
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
 
 
+=======
+    private void btnTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonActionPerformed
+        showDatahoadon(hdsp.getAllHoaDon());
+    }//GEN-LAST:event_btnTaoHoaDonActionPerformed
+  
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTaoHoaDon;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -475,7 +543,14 @@ public class BanHang extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+<<<<<<< HEAD
     private javax.swing.JTable jTable2;
+<<<<<<< HEAD
+=======
+=======
+    private javax.swing.JTable jTable3;
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -489,7 +564,15 @@ public class BanHang extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField9;
+<<<<<<< HEAD
     private javax.swing.JTable tblGioHang;
+=======
+<<<<<<< HEAD
+    private javax.swing.JTable tblGioHang;
+=======
+    private javax.swing.JTable tblHoaDonTro;
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
     private javax.swing.JTable tblSP;
     // End of variables declaration//GEN-END:variables
 }

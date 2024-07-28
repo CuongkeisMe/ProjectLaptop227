@@ -5,9 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import main.config.DBConnect;
+import main.form.Menu;
+
 
 public class DangNhap extends javax.swing.JFrame {
 
+     int vaiTro;
+   
     public DangNhap() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -175,17 +179,26 @@ public class DangNhap extends javax.swing.JFrame {
                 Connection con = DBConnect.getConnection();
                 PreparedStatement pr;
                 String sql = """
-                             select * from TaiKhoan tk join VaiTro vt
-                             on tk.id_VaiTro= vt.id_VaiTro
-                             where tk.UserName=? and tk.Pass=? 
-                             """;
+                         select tk.UserName,tk.Pass,vt.LoaiVaiTro from TaiKhoan tk join VaiTro vt
+                                                          on tk.id_VaiTro= vt.id_VaiTro
+                                                          where tk.UserName=? and tk.Pass=? 
+            """;
                 pr = con.prepareStatement(sql);
                 pr.setString(1, ten);
                 pr.setString(2, matkhau);
                 ResultSet rs = pr.executeQuery();
 
                 if (rs.next()) {
-                    JOptionPane.showMessageDialog(this, "Đăng Nhập Thành Công");
+                     vaiTro = rs.getInt("LoaiVaiTro"); 
+                    String loaivt = "";
+                    if (vaiTro == 1) {
+                       
+                        loaivt = " Bạn Là Admin";
+                    } else if (vaiTro == 0) {
+                      
+                        loaivt = "Bạn Là Nhân Viên";
+                    }
+                    JOptionPane.showMessageDialog(this, "Đăng Nhập Thành Công:" + loaivt);
                     Menu mn = new Menu();
                     mn.setVisible(true);
                     dispose();
@@ -197,6 +210,8 @@ public class DangNhap extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         }
+
+
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     public static void main(String args[]) {
@@ -222,5 +237,4 @@ public class DangNhap extends javax.swing.JFrame {
     private javax.swing.JTextField txtTaiKhoan;
     // End of variables declaration//GEN-END:variables
 
-  
 }

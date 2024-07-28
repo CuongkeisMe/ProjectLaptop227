@@ -2,22 +2,45 @@ package main.form;
 
 import javax.swing.JOptionPane;
 import main.config.DBConnect;
+<<<<<<< HEAD
 import java.awt.Color;
+=======
+<<<<<<< HEAD
+import java.awt.Color;
+=======
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+=======
+
+import javax.swing.JOptionPane;
+import main.config.DBConnect;
+>>>>>>> 700b01739da38112048846571135a458d33351e9
+
+import java.awt.Color;
+
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
 import main.view.chucnang.BanHang;
 import main.view.chucnang.HoaDon;
 import main.view.chucnang.KhachHangView;
 import main.view.chucnang.KhuyenMai;
 import main.view.chucnang.NhanVienView;
 import main.view.chucnang.SanPhamView;
-import main.view.chucnang.TaiKhoan;  
+import main.view.chucnang.TaiKhoan;
 import main.view.chucnang.ThongKe;
 import main.view.chucnang.TrangChu;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import main.config.DBConnect;
 
 public class Menu extends javax.swing.JFrame {
+
+    
 
     TrangChu trangchuForm = new TrangChu();
     HoaDon hoadonForm = new HoaDon();
@@ -30,12 +53,30 @@ public class Menu extends javax.swing.JFrame {
     SanPhamView sanphamForm = new SanPhamView();
     Color ClickedColor = new Color(102, 102, 102);
     Color DefaultColor = new Color(51, 51, 51);
+<<<<<<< HEAD
 
+=======
+=======
+
+    Color ClickedColor = new Color(102, 102, 102);
+    Color DefaultColor = new Color(51, 51, 51);
+    
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
+
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
     public Menu() {
+        
         initComponents();
         this.setLocationRelativeTo(null);
     }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
     private void DefaultColorForm(){
         trangchuPanel.setBackground(DefaultColor);
         sanphamPanel.setBackground(DefaultColor);
@@ -48,6 +89,13 @@ public class Menu extends javax.swing.JFrame {
         thongkePanel.setBackground(DefaultColor);
     }
     
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -561,9 +609,13 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_taikhoanPanelMouseClicked
 
     private void nhanvienPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nhanvienPanelMouseClicked
-
-        mainPanel.removeAll();
-        mainPanel.add(nhanvienForm).setVisible(true);
+       DangNhap dn = new DangNhap();
+        if (dn.vaiTro == 0) {
+            mainPanel.removeAll();
+            mainPanel.add(nhanvienForm).setVisible(true);
+        } else if (dn.vaiTro == 1) {
+            JOptionPane.showMessageDialog(this, "Bạn Không có quyền ở chức năng này");
+        }
     }//GEN-LAST:event_nhanvienPanelMouseClicked
 
     private void DangXuatPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DangXuatPaneMouseClicked
@@ -661,6 +713,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DangXuatPane;

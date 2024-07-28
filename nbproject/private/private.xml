@@ -8,6 +8,24 @@
             <file>file:/E:/Laptop/src/main/form/DangNhap.java</file>
             <file>file:/E:/Laptop/src/main/view/sanphamchitiet/ImeiChiTiet.java</file>
             <file>file:/E:/Laptop/src/main/request/FindSanPham.java</file>
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+            <file>file:/D:/DuAnLapTopp247/src/main/view/chucnang/TaiKhoan.java</file>
+            <file>file:/D:/DuAnLapTopp247/src/main/form/Menu.java</file>
+            <file>file:/D:/DuAnLapTopp247/src/main/repository/TaiKhoanRepository.java</file>
+            <file>file:/D:/DuAnLapTopp247/src/main/response/SanPhamResponse.java</file>
+            <file>file:/D:/DuAnLapTopp247/src/main/form/DangNhap.java</file>
+=======
+            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/repository/NhanVienRepository.java</file>
+            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/view/chucnang/KhachHangView.java</file>
+            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/form/Menu.java</file>
+            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/repository/KhachHangRepository.java</file>
+            <file>file:/D:/banLapTop227/ProjectLaptop227/src/main/view/chucnang/NhanVienView.java</file>
+>>>>>>> 700b01739da38112048846571135a458d33351e9
+>>>>>>> 52ccf846f81d274b1b31ce1ff6df71b50e749baa
+>>>>>>> 47144acd627806db5c458f62e5b1bb92615e95cb
         </group>
     </open-files>
 </project-private>

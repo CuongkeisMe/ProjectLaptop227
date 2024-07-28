@@ -503,17 +503,17 @@ public class NhanVienView extends javax.swing.JInternalFrame {
             }
         }
         
-        if(this.isVisible()){
+        if (this.isVisible()) {
             String email = txtEmail.getText();
-            String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
-            if(email.length()>0){
-                if(!email.matches(regex)){// địa chỉ sai định dạng
-                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại địa chỉ,và k được chứa kí tự đặc biệt: @#$%...");
-                txtEmail.requestFocus();
-                return;
+            String regex = "^(?=[A-Z0-9._%+-]{1,64}@)[A-Z0-9._%+-]{1,64}@[A-Z0-9.-]{1,255}\\.[A-Z]{2,63}$";//chứa chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu gạch ngang và dấu gạch chéo.
+            if (email.length() > 0) {
+                if (!email.matches(regex)) {// địa chỉ sai định dạng
+                    JOptionPane.showMessageDialog(this, "Sai định dạng, Nhập lại Email,Vd: doly862005@gmail.com");
+                    txtEmail.requestFocus();
+                    return;
                 }
-            }else{
-                JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
+            } else {
+                JOptionPane.showMessageDialog(this, "Email không được để trống");
                 txtEmail.requestFocus();
                 return;
             }
